@@ -12,9 +12,10 @@
 static UnityStoreEventDispatcher* instance = nil;
 
 extern "C"{
-    void eventDispatcher_Init() {
+    void eventDispatcher_Init(const char* recieverName) {
+        NSLog(@"LISA - store init with name %@", [NSString stringWithUTF8String:recieverName]);
         LogDebug(@"SOOMLA Unity UnityStoreEventDispatcher", @"Initializing StoreEventHandler ...");
-        [UnityStoreEventDispatcher initialize];
+        [UnityStoreEventDispatcher initialize:[NSString stringWithUTF8String:recieverName]];
     }
     
     void eventDispatcher_PushEventSoomlaStoreInitialized(const char* message) {
@@ -92,30 +93,32 @@ extern "C"{
 
 @implementation UnityStoreEventDispatcher
 
-+ (void)initialize {
++ (void)initialize:(NSString*)recieverName {
     if (!instance) {
-        instance = [[UnityStoreEventDispatcher alloc] init];
+        instance = [[UnityStoreEventDispatcher alloc] init:recieverName];
     }
 }
 
-- (id) init {
+- (id) init:(NSString*)reciever {
     if (self = [super init]) {
         [StoreEventHandling observeAllEventsWithObserver:self withSelector:@selector(handleEvent:)];
     }
-
+    self.recieverName = reciever;
     return self;
 }
 
-- (void)handleEvent:(NSNotification*)notification{
+- (void)handleEvent:(NSNotification*)notification {
     if (notification.object == self) {
         return;
     }
-    
+    NSLog(@"LISA - store sending event to reciever %@", _recieverName);
+    const char* reciever = [_recieverName UTF8String];
+
 	if ([notification.name isEqualToString:EVENT_BILLING_NOT_SUPPORTED]) {
-	        UnitySendMessage("StoreEvents", "onBillingNotSupported", "");
+	        UnitySendMessage(reciever, "onBillingNotSupported", "");
 	}
 	else if ([notification.name isEqualToString:EVENT_BILLING_SUPPORTED]) {
-	    UnitySendMessage("StoreEvents", "onBillingSupported", "");
+	    UnitySendMessage(reciever, "onBillingSupported", "");
 	}
 	else if ([notification.name isEqualToString:EVENT_CURRENCY_BALANCE_CHANGED]) {
 	    NSDictionary* userInfo = [notification userInfo];
@@ -124,7 +127,7 @@ extern "C"{
                                         @"balance": (NSNumber*)[userInfo objectForKey:DICT_ELEMENT_BALANCE],
                                         @"amountAdded": (NSNumber*)[userInfo objectForKey:DICT_ELEMENT_AMOUNT_ADDED]
                                         }];
-	    UnitySendMessage("StoreEvents", "onCurrencyBalanceChanged", [jsonStr UTF8String]);
+	    UnitySendMessage(reciever, "onCurrencyBalanceChanged", [jsonStr UTF8String]);
 	}
 	else if ([notification.name isEqualToString:EVENT_GOOD_BALANCE_CHANGED]) {
         NSDictionary* userInfo = [notification userInfo];
@@ -133,21 +136,21 @@ extern "C"{
                                                             @"balance": (NSNumber*)[userInfo objectForKey:DICT_ELEMENT_BALANCE],
                                                             @"amountAdded": (NSNumber*)[userInfo objectForKey:DICT_ELEMENT_AMOUNT_ADDED]
                                                             }];
-        UnitySendMessage("StoreEvents", "onGoodBalanceChanged", [jsonStr UTF8String]);
+        UnitySendMessage(reciever, "onGoodBalanceChanged", [jsonStr UTF8String]);
     }
 	else if ([notification.name isEqualToString:EVENT_GOOD_EQUIPPED]) {
         NSDictionary* userInfo = [notification userInfo];
         NSString* jsonStr = [SoomlaUtils dictToJsonString:@{
                                                             @"itemId": [userInfo objectForKey:DICT_ELEMENT_EquippableVG]
                                                             }];
-        UnitySendMessage("StoreEvents", "onGoodEquipped", [jsonStr UTF8String]);
+        UnitySendMessage(reciever, "onGoodEquipped", [jsonStr UTF8String]);
     }
 	else if ([notification.name isEqualToString:EVENT_GOOD_UNEQUIPPED]) {
         NSDictionary* userInfo = [notification userInfo];
         NSString* jsonStr = [SoomlaUtils dictToJsonString:@{
                                                             @"itemId": [userInfo objectForKey:DICT_ELEMENT_EquippableVG]
                                                             }];
-        UnitySendMessage("StoreEvents", "onGoodUnequipped", [jsonStr UTF8String]);
+        UnitySendMessage(reciever, "onGoodUnequipped", [jsonStr UTF8String]);
     }
 	else if ([notification.name isEqualToString:EVENT_GOOD_UPGRADE]) {
         NSDictionary* userInfo = [notification userInfo];
@@ -155,7 +158,7 @@ extern "C"{
                                                             @"itemId": [userInfo objectForKey:DICT_ELEMENT_GOOD],
                                                             @"upgradeItemId": [userInfo objectForKey:DICT_ELEMENT_UpgradeVG]
                                                             }];
-        UnitySendMessage("StoreEvents", "onGoodUpgrade", [jsonStr UTF8String]);
+        UnitySendMessage(reciever, "onGoodUpgrade", [jsonStr UTF8String]);
     }
 	else if ([notification.name isEqualToString:EVENT_ITEM_PURCHASED]) {
         NSDictionary* userInfo = [notification userInfo];
@@ -163,14 +166,14 @@ extern "C"{
                                                             @"itemId": [userInfo objectForKey:DICT_ELEMENT_PURCHASABLE_ID],
                                                             @"payload": [userInfo objectForKey:DICT_ELEMENT_DEVELOPERPAYLOAD]
                                                             }];
-        UnitySendMessage("StoreEvents", "onItemPurchased", [jsonStr UTF8String]);
+        UnitySendMessage(reciever, "onItemPurchased", [jsonStr UTF8String]);
     }
 	else if ([notification.name isEqualToString:EVENT_ITEM_PURCHASE_STARTED]) {
         NSDictionary* userInfo = [notification userInfo];
         NSString* jsonStr = [SoomlaUtils dictToJsonString:@{
                                                             @"itemId": [userInfo objectForKey:DICT_ELEMENT_PURCHASABLE_ID]
                                                             }];
-        UnitySendMessage("StoreEvents", "onItemPurchaseStarted", [jsonStr UTF8String]);
+        UnitySendMessage(reciever, "onItemPurchaseStarted", [jsonStr UTF8String]);
     }
 	else if ([notification.name isEqualToString:EVENT_MARKET_PURCHASE_CANCELLED]) {
         NSDictionary* userInfo = [notification userInfo];
@@ -178,7 +181,7 @@ extern "C"{
         NSString* jsonStr = [SoomlaUtils dictToJsonString:@{
                                                             @"itemId": pvi.itemId
                                                             }];
-        UnitySendMessage("StoreEvents", "onMarketPurchaseCancelled", [jsonStr UTF8String]);
+        UnitySendMessage(reciever, "onMarketPurchaseCancelled", [jsonStr UTF8String]);
     }
 	else if ([notification.name isEqualToString:EVENT_MARKET_PURCHASED]) {
         NSDictionary* userInfo = [notification userInfo];
@@ -188,7 +191,7 @@ extern "C"{
                                                             @"payload": [userInfo objectForKey:DICT_ELEMENT_DEVELOPERPAYLOAD],
                                                             @"extra": @{ @"receipt": [userInfo objectForKey:DICT_ELEMENT_RECEIPT], @"token": [userInfo objectForKey:DICT_ELEMENT_TOKEN]}
                                                             }];
-        UnitySendMessage("StoreEvents", "onMarketPurchase", [jsonStr UTF8String]);
+        UnitySendMessage(reciever, "onMarketPurchase", [jsonStr UTF8String]);
     }
     else if ([notification.name isEqualToString:EVENT_MARKET_PURCHASE_STARTED]) {
         NSDictionary* userInfo = [notification userInfo];
@@ -196,20 +199,20 @@ extern "C"{
         NSString* jsonStr = [SoomlaUtils dictToJsonString:@{
                                                             @"itemId": pvi.itemId
                                                             }];
-        UnitySendMessage("StoreEvents", "onMarketPurchaseStarted", [jsonStr UTF8String]);
+        UnitySendMessage(reciever, "onMarketPurchaseStarted", [jsonStr UTF8String]);
 	}
     else if ([notification.name isEqualToString:EVENT_RESTORE_TRANSACTIONS_FINISHED]) {
         NSDictionary* userInfo = [notification userInfo];
         NSString* jsonStr = [SoomlaUtils dictToJsonString:@{
                                                             @"success": [userInfo objectForKey:DICT_ELEMENT_SUCCESS]
                                                             }];
-        UnitySendMessage("StoreEvents", "onRestoreTransactionsFinished", [jsonStr UTF8String]);
+        UnitySendMessage(reciever, "onRestoreTransactionsFinished", [jsonStr UTF8String]);
     }
     else if ([notification.name isEqualToString:EVENT_RESTORE_TRANSACTIONS_STARTED]) {
-        UnitySendMessage("StoreEvents", "onRestoreTransactionsStarted", "");
+        UnitySendMessage(reciever, "onRestoreTransactionsStarted", "");
     }
     else if ([notification.name isEqualToString:EVENT_MARKET_ITEMS_REFRESH_STARTED]) {
-        UnitySendMessage("StoreEvents", "onMarketItemsRefreshStarted", "");
+        UnitySendMessage(reciever, "onMarketItemsRefreshStarted", "");
     }
     else if ([notification.name isEqualToString:EVENT_MARKET_ITEMS_REFRESH_FINISHED]) {
         NSArray* marketItems = [notification.userInfo objectForKey:DICT_ELEMENT_MARKET_ITEMS];
@@ -226,20 +229,20 @@ extern "C"{
             [eventJSON addObject:micJSON];
         }
         NSString* jsonStr = [SoomlaUtils arrayToJsonString:eventJSON];
-        UnitySendMessage("StoreEvents", "onMarketItemsRefreshFinished", [jsonStr UTF8String]);
+        UnitySendMessage(reciever, "onMarketItemsRefreshFinished", [jsonStr UTF8String]);
     }
     else if ([notification.name isEqualToString:EVENT_MARKET_ITEMS_REFRESH_FAILED]) {
         NSDictionary* userInfo = [notification userInfo];
         NSString* jsonStr = [SoomlaUtils dictToJsonString:@{
                                                             @"errorMessage": ([userInfo objectForKey:DICT_ELEMENT_ERROR_MESSAGE] ?: @"")
                                                             }];
-        UnitySendMessage("StoreEvents", "onMarketItemsRefreshFailed", [jsonStr UTF8String]);
+        UnitySendMessage(reciever, "onMarketItemsRefreshFailed", [jsonStr UTF8String]);
     }
     else if ([notification.name isEqualToString:EVENT_UNEXPECTED_ERROR_IN_STORE]) {
-        UnitySendMessage("StoreEvents", "onUnexpectedErrorInStore", "");
+        UnitySendMessage(reciever, "onUnexpectedErrorInStore", "");
     }
     else if ([notification.name isEqualToString:EVENT_SOOMLASTORE_INIT]) {
-        UnitySendMessage("StoreEvents", "onSoomlaStoreInitialized", "");
+        UnitySendMessage(reciever, "onSoomlaStoreInitialized", "");
     }
 }
 

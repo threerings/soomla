@@ -6,22 +6,24 @@
 
 @implementation UnitySoomlaCoreEventDispatcher
 
-+ (void)initialize {
++ (void)initialize:(NSString*)recieverName  {
     static UnitySoomlaCoreEventDispatcher* instance = nil;
     if (!instance) {
-        instance = [[UnitySoomlaCoreEventDispatcher alloc] init];
+        instance = [[UnitySoomlaCoreEventDispatcher alloc] init:recieverName];
     }
 }
 
-- (id) init {
+- (id) init:(NSString*)reciever  {
     if (self = [super init]) {
         [SoomlaEventHandling observeAllEventsWithObserver:self withSelector:@selector(handleEvent:)];
     }
-    
+    self.recieverName = reciever;
     return self;
 }
 
-- (void)handleEvent:(NSNotification*)notification{
+- (void)handleEvent:(NSNotification*)notification {
+    NSLog(@"LISA - core sending event to reciever %@", _recieverName);
+    const char* reciever = [_recieverName UTF8String];
     
 	if ([notification.name isEqualToString:EVENT_REWARD_GIVEN]) {
         NSDictionary* userInfo = [notification userInfo];
@@ -31,7 +33,7 @@
                                     @"rewardId": rewardId
                                     };
         
-        UnitySendMessage("CoreEvents", "onRewardGiven", [[SoomlaUtils dictToJsonString:eventJSON] UTF8String]);
+        UnitySendMessage(reciever, "onRewardGiven", [[SoomlaUtils dictToJsonString:eventJSON] UTF8String]);
 	}
 	else if ([notification.name isEqualToString:EVENT_REWARD_TAKEN]) {
         NSDictionary* userInfo = [notification userInfo];
@@ -41,7 +43,7 @@
                                     @"rewardId": rewardId
                                     };
         
-        UnitySendMessage("CoreEvents", "onRewardTaken", [[SoomlaUtils dictToJsonString:eventJSON] UTF8String]);
+        UnitySendMessage(reciever, "onRewardTaken", [[SoomlaUtils dictToJsonString:eventJSON] UTF8String]);
 	}
     else if ([notification.name isEqualToString:EVENT_CUSTOM]) {
         NSDictionary* userInfo = [notification userInfo];
@@ -54,7 +56,7 @@
                                     @"name": name,
                                     @"extra":extraDict
                                     };
-        UnitySendMessage("CoreEvents", "onCustomEvent", [[SoomlaUtils dictToJsonString:eventJSON] UTF8String]);
+        UnitySendMessage(reciever, "onCustomEvent", [[SoomlaUtils dictToJsonString:eventJSON] UTF8String]);
     }
 }
 

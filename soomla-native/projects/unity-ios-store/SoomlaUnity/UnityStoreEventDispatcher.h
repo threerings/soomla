@@ -2,10 +2,12 @@
 #import <Foundation/Foundation.h>
 
 @interface UnityStoreEventDispatcher : NSObject{
-    
+
 }
-- (id)init;
+@property (retain, nonatomic) NSString* recieverName;
+
+- (id)init:(NSString*)recieverName;
 - (void)handleEvent:(NSNotification*)notification;
-+ (void)initialize;
++ (void)initialize:(NSString*)recieverName;
 
 @end

@@ -9,11 +9,12 @@
 #import "KeyValueStorage.h"
 
 extern "C" {
-    void soomlaCore_Init(const char* secret, bool debug) {
+    void soomlaCore_Init(const char* recieverName, const char* secret, bool debug) {
+        NSLog(@"LISA - core init with name %@", [NSString stringWithUTF8String:recieverName]);
         LogDebug(@"SOOMLA Unity UnitySoomlaCore", @"Initializing SoomlaEventHandler ...");
         
         DEBUG_LOG = debug;
-        [UnitySoomlaCoreEventDispatcher initialize];
+        [UnitySoomlaCoreEventDispatcher initialize:[NSString stringWithUTF8String:recieverName]];
         [Soomla initializeWithSecret:[NSString stringWithUTF8String:secret]];
     }
     
