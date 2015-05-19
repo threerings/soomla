@@ -38,7 +38,7 @@ namespace Soomla.Store {
 
 #if UNITY_IOS && !UNITY_EDITOR
 		[DllImport ("__Internal")]
-		private static extern void eventDispatcher_Init();
+        private static extern void eventDispatcher_Init(string recieverName);
 #endif
 
 
@@ -49,7 +49,7 @@ namespace Soomla.Store {
 			if(Instance == null){ 	// making sure we only initialize one instance.
 				Instance = this;
 				GameObject.DontDestroyOnLoad(this.gameObject);
-				Initialize();
+                Initialize(this.name);
 			} else {				// Destroying unused instances.
 				GameObject.Destroy(this.gameObject);
 			}
@@ -67,7 +67,7 @@ namespace Soomla.Store {
 		/// <summary>
 		/// Initializes the different native event handlers in Android / iOS
 		/// </summary>
-		public static void Initialize() {
+        public static void Initialize(string recieverName) {
 			SoomlaUtils.LogDebug (TAG, "Initializing StoreEvents ...");
 #if UNITY_ANDROID && !UNITY_EDITOR
 			AndroidJNI.PushLocalFrame(100);
@@ -78,7 +78,7 @@ namespace Soomla.Store {
 
 			sep = new StoreEventPusherAndroid();
 #elif UNITY_IOS && !UNITY_EDITOR
-			eventDispatcher_Init();
+            eventDispatcher_Init(recieverName);
 			sep = new StoreEventPusherIOS();
 #endif
 		}

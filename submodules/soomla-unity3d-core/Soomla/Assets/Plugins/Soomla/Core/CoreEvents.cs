@@ -27,7 +27,7 @@ namespace Soomla {
 
 #if UNITY_IOS && !UNITY_EDITOR
 		[DllImport ("__Internal")]
-		private static extern void soomlaCore_Init(string secret, [MarshalAs(UnmanagedType.Bool)] bool debug);
+        private static extern void soomlaCore_Init(string recieverName, string secret, [MarshalAs(UnmanagedType.Bool)] bool debug);
 #endif
 
 		private const string TAG = "SOOMLA CoreEvents";
@@ -41,13 +41,13 @@ namespace Soomla {
 			if(instance == null){ 	// making sure we only initialize one instance.
 				instance = this;
 				GameObject.DontDestroyOnLoad(this.gameObject);
-				Initialize();
+                Initialize(this.name);
 			} else {				// Destroying unused instances.
 				GameObject.Destroy(this.gameObject);
 			}
 		}
 
-		public static void Initialize() {
+        public static void Initialize(string recieverName) {
 			SoomlaUtils.LogDebug(TAG, "Initializing CoreEvents and Soomla Core ...");
 #if UNITY_ANDROID && !UNITY_EDITOR
 			AndroidJNI.PushLocalFrame(100);
@@ -67,7 +67,7 @@ namespace Soomla {
 			}
 			AndroidJNI.PopLocalFrame(IntPtr.Zero);
 #elif UNITY_IOS && !UNITY_EDITOR
-			soomlaCore_Init(CoreSettings.SoomlaSecret, CoreSettings.DebugMessages);
+            soomlaCore_Init(recieverName, CoreSettings.SoomlaSecret, CoreSettings.DebugMessages);
 #endif
 		}
 
