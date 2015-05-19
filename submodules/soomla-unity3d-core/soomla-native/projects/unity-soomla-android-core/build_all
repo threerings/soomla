@@ -1,0 +1,1 @@
+ant -buildfile unity-soomla-android-core.xml -Dsoomla.filename="UnitySoomlaAndroidCore" all

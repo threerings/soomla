@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="libs">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../temp/OpenIAB/library/libs/iap_plugin-dev-13.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../temp/OpenIAB/library/libs/gson-2.2.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../temp/OpenIAB/library/libs/in-app-purchasing-1.0.3.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

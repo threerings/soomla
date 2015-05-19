@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>D14B2059-51F1-490D-A23D-584A350B62C4</string>
+	<key>IDESourceControlProjectName</key>
+	<string>SoomlaiOSStore</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>225BF6781622E39BA106F83BEB37B2A82DCED9A7</key>
+		<string>https://github.com/soomla/unity3d-store.git</string>
+		<key>3BCFCB0DF49FF8218BCAC4EE276A138C20D29D13</key>
+		<string>github.com:soomla/ios-store.git</string>
+		<key>3C7220E68B1EE37C18CF456227E6169CCABBA119</key>
+		<string>https://github.com/soomla/soomla-ios-core.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>SoomlaiOSStore.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>225BF6781622E39BA106F83BEB37B2A82DCED9A7</key>
+		<string>../../../..</string>
+		<key>3BCFCB0DF49FF8218BCAC4EE276A138C20D29D13</key>
+		<string>../..</string>
+		<key>3C7220E68B1EE37C18CF456227E6169CCABBA119</key>
+		<string>../..submodules/soomla-ios-core/</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>github.com:soomla/ios-store.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>3BCFCB0DF49FF8218BCAC4EE276A138C20D29D13</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>225BF6781622E39BA106F83BEB37B2A82DCED9A7</string>
+			<key>IDESourceControlWCCName</key>
+			<string>..</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>3BCFCB0DF49FF8218BCAC4EE276A138C20D29D13</string>
+			<key>IDESourceControlWCCName</key>
+			<string>ios-store</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>3C7220E68B1EE37C18CF456227E6169CCABBA119</string>
+			<key>IDESourceControlWCCName</key>
+			<string>soomla-ios-core</string>
+		</dict>
+	</array>
+</dict>
+</plist>

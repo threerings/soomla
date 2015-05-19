@@ -1,0 +1,8 @@
+build=../build/
+
+rm -rf $build
+mkdir -p $build
+
+cp ../submodules/soomla-android-core/build/* $build/
+
+ant -buildfile soomla-android-store.xml -Dsoomla.filename="AndroidStore" all

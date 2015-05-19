@@ -1,0 +1,583 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C031690E1ADE834300AE4790 /* libSoomlaiOSStore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0704D651ACE91BC0019195F /* libSoomlaiOSStore.a */; };
+		C03169101ADE834300AE4790 /* libSoomlaiOSCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C031690F1ADE834300AE4790 /* libSoomlaiOSCore.a */; };
+		C08CF20C1641C68D007603E8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C08CF20B1641C68D007603E8 /* UIKit.framework */; };
+		C08CF20E1641C68D007603E8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C08CF20D1641C68D007603E8 /* Foundation.framework */; };
+		C08CF2101641C68D007603E8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C08CF20F1641C68D007603E8 /* CoreGraphics.framework */; };
+		C08CF2161641C68D007603E8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C08CF2141641C68D007603E8 /* InfoPlist.strings */; };
+		C08CF2181641C68D007603E8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C08CF2171641C68D007603E8 /* main.m */; };
+		C08CF21C1641C68D007603E8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C08CF21B1641C68D007603E8 /* AppDelegate.m */; };
+		C08CF2331641C707007603E8 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C08CF2301641C707007603E8 /* MainStoryboard_iPhone.storyboard */; };
+		C08CF2401641C751007603E8 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C08CF2361641C751007603E8 /* Default-568h@2x.png */; };
+		C08CF2411641C751007603E8 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = C08CF2371641C751007603E8 /* Default.png */; };
+		C08CF2421641C751007603E8 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C08CF2381641C751007603E8 /* Default@2x.png */; };
+		C08CF2431641C751007603E8 /* gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = C08CF2391641C751007603E8 /* gradient.png */; };
+		C08CF2441641C751007603E8 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C08CF23A1641C751007603E8 /* Icon.png */; };
+		C08CF2451641C751007603E8 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C08CF23B1641C751007603E8 /* Icon@2x.png */; };
+		C08CF2461641C751007603E8 /* img_direct.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C08CF23C1641C751007603E8 /* img_direct.jpg */; };
+		C08CF2471641C751007603E8 /* right_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = C08CF23D1641C751007603E8 /* right_bg.png */; };
+		C08CF2481641C751007603E8 /* right_bg_hover.png in Resources */ = {isa = PBXBuildFile; fileRef = C08CF23E1641C751007603E8 /* right_bg_hover.png */; };
+		C08CF2491641C751007603E8 /* soomla_logo_new.png in Resources */ = {isa = PBXBuildFile; fileRef = C08CF23F1641C751007603E8 /* soomla_logo_new.png */; };
+		C08CF24B1641C7D2007603E8 /* GoodDog.otf in Resources */ = {isa = PBXBuildFile; fileRef = C08CF24A1641C7D2007603E8 /* GoodDog.otf */; };
+		C08CF24E1641C840007603E8 /* StoreExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C08CF24D1641C840007603E8 /* StoreExampleViewController.m */; };
+		C08CF2511641CA30007603E8 /* MuffinRushAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = C08CF2501641CA30007603E8 /* MuffinRushAssets.m */; };
+		C08CF2CC1641CFF3007603E8 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C08CF2CB1641CFF3007603E8 /* StoreKit.framework */; };
+		C08CF2CE1641CFFE007603E8 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C08CF2CD1641CFFE007603E8 /* libsqlite3.0.dylib */; };
+		C08CF2D01641D004007603E8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C08CF2CF1641D004007603E8 /* Security.framework */; };
+		C08CF2D21641D30C007603E8 /* muffin.png in Resources */ = {isa = PBXBuildFile; fileRef = C08CF2D11641D30C007603E8 /* muffin.png */; };
+		C08CF2D51641D34A007603E8 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = C08CF2D31641D34A007603E8 /* back.png */; };
+		C08CF2D61641D34A007603E8 /* GetMore.png in Resources */ = {isa = PBXBuildFile; fileRef = C08CF2D41641D34A007603E8 /* GetMore.png */; };
+		C08CF2D91641D57C007603E8 /* VirtualGoodsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C08CF2D81641D57C007603E8 /* VirtualGoodsViewController.m */; };
+		C08CF2DE1642BDD5007603E8 /* chocolate_cake.png in Resources */ = {isa = PBXBuildFile; fileRef = C08CF2DA1642BDD5007603E8 /* chocolate_cake.png */; };
+		C08CF2DF1642BDD5007603E8 /* cream_cup.png in Resources */ = {isa = PBXBuildFile; fileRef = C08CF2DB1642BDD5007603E8 /* cream_cup.png */; };
+		C08CF2E01642BDD5007603E8 /* fruit_cake.png in Resources */ = {isa = PBXBuildFile; fileRef = C08CF2DC1642BDD5007603E8 /* fruit_cake.png */; };
+		C08CF2E11642BDD5007603E8 /* pavlova.png in Resources */ = {isa = PBXBuildFile; fileRef = C08CF2DD1642BDD5007603E8 /* pavlova.png */; };
+		C08CF2E41642BFB7007603E8 /* VirtualGoodCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C08CF2E31642BFB7007603E8 /* VirtualGoodCell.m */; };
+		C08CF2EE16431847007603E8 /* VirtualCurrencyPackCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C08CF2ED16431847007603E8 /* VirtualCurrencyPackCell.m */; };
+		C08CF2F1164318AF007603E8 /* VirtualCurrencyPacksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C08CF2F0164318AF007603E8 /* VirtualCurrencyPacksViewController.m */; };
+		C08CF2F616431A4E007603E8 /* muffins01.png in Resources */ = {isa = PBXBuildFile; fileRef = C08CF2F216431A4E007603E8 /* muffins01.png */; };
+		C08CF2F716431A4E007603E8 /* muffins02.png in Resources */ = {isa = PBXBuildFile; fileRef = C08CF2F316431A4E007603E8 /* muffins02.png */; };
+		C08CF2F816431A4E007603E8 /* muffins03.png in Resources */ = {isa = PBXBuildFile; fileRef = C08CF2F416431A4E007603E8 /* muffins03.png */; };
+		C08CF2F916431A4E007603E8 /* muffins04.png in Resources */ = {isa = PBXBuildFile; fileRef = C08CF2F516431A4E007603E8 /* muffins04.png */; };
+		C08CF2FD164321F7007603E8 /* iOS Simulator Screen shot Nov 1, 2012 11.31.22 PM.png in Resources */ = {isa = PBXBuildFile; fileRef = C08CF2FA164321F7007603E8 /* iOS Simulator Screen shot Nov 1, 2012 11.31.22 PM.png */; };
+		C08CF2FE164321F7007603E8 /* iOS Simulator Screen shot Nov 1, 2012 11.31.44 PM.png in Resources */ = {isa = PBXBuildFile; fileRef = C08CF2FB164321F7007603E8 /* iOS Simulator Screen shot Nov 1, 2012 11.31.44 PM.png */; };
+		C08CF2FF164321F7007603E8 /* iOS Simulator Screen shot Nov 1, 2012 11.31.54 PM.png in Resources */ = {isa = PBXBuildFile; fileRef = C08CF2FC164321F7007603E8 /* iOS Simulator Screen shot Nov 1, 2012 11.31.54 PM.png */; };
+		C08CF30516432235007603E8 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C08CF30416432235007603E8 /* Icon.png */; };
+		C08CF30716432239007603E8 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C08CF30616432239007603E8 /* Icon@2x.png */; };
+		C0969D371956CF3F007349A3 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0969D361956CF3F007349A3 /* AdSupport.framework */; };
+		C0969D391956CF44007349A3 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0969D381956CF44007349A3 /* AudioToolbox.framework */; };
+		C0969D3B1956CF4A007349A3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0969D3A1956CF4A007349A3 /* AVFoundation.framework */; };
+		C0969D3D1956CF4F007349A3 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0969D3C1956CF4F007349A3 /* CFNetwork.framework */; };
+		C0969D3F1956CF5A007349A3 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0969D3E1956CF5A007349A3 /* CoreMedia.framework */; };
+		C0969D411956CF60007349A3 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C0969D401956CF60007349A3 /* libz.dylib */; };
+		C0969D431956CF66007349A3 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0969D421956CF66007349A3 /* MediaPlayer.framework */; };
+		C0969D451956CF6B007349A3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0969D441956CF6B007349A3 /* QuartzCore.framework */; };
+		C0969D471956CF75007349A3 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0969D461956CF75007349A3 /* SystemConfiguration.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C03169131ADFFC8200AE4790 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C0704D5F1ACE91BC0019195F /* SoomlaiOSStore.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C02CEC41160DC870000AA0D2;
+			remoteInfo = SoomlaiOSStore;
+		};
+		C0704D641ACE91BC0019195F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C0704D5F1ACE91BC0019195F /* SoomlaiOSStore.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C02CEC42160DC870000AA0D2;
+			remoteInfo = SoomlaiOSStore;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		C031690F1ADE834300AE4790 /* libSoomlaiOSCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSoomlaiOSCore.a; path = "../../../../../../Library/Developer/Xcode/DerivedData/SoomlaiOSStoreExample-gyfmkmdyhelmnmdemlfywkmdgacc/Build/Products/Debug-iphoneos/libSoomlaiOSCore.a"; sourceTree = "<group>"; };
+		C0704D5F1ACE91BC0019195F /* SoomlaiOSStore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SoomlaiOSStore.xcodeproj; path = ../SoomlaiOSStore.xcodeproj; sourceTree = "<group>"; };
+		C0704D671ACE91E20019195F /* libSoomlaiOSCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSoomlaiOSCore.a; path = "../submodules/soomla-ios-core/out/Debug-iphoneos/libSoomlaiOSCore.a"; sourceTree = "<group>"; };
+		C08CF2071641C68D007603E8 /* SoomlaiOSStoreExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoomlaiOSStoreExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C08CF20B1641C68D007603E8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		C08CF20D1641C68D007603E8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		C08CF20F1641C68D007603E8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		C08CF2131641C68D007603E8 /* SoomlaiOSStoreExample-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SoomlaiOSStoreExample-Info.plist"; sourceTree = "<group>"; };
+		C08CF2151641C68D007603E8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		C08CF2171641C68D007603E8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		C08CF2191641C68D007603E8 /* SoomlaiOSStoreExample-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SoomlaiOSStoreExample-Prefix.pch"; sourceTree = "<group>"; };
+		C08CF21A1641C68D007603E8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		C08CF21B1641C68D007603E8 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		C08CF2311641C707007603E8 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
+		C08CF2361641C751007603E8 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		C08CF2371641C751007603E8 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		C08CF2381641C751007603E8 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		C08CF2391641C751007603E8 /* gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gradient.png; sourceTree = "<group>"; };
+		C08CF23A1641C751007603E8 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		C08CF23B1641C751007603E8 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		C08CF23C1641C751007603E8 /* img_direct.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = img_direct.jpg; sourceTree = "<group>"; };
+		C08CF23D1641C751007603E8 /* right_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = right_bg.png; sourceTree = "<group>"; };
+		C08CF23E1641C751007603E8 /* right_bg_hover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = right_bg_hover.png; sourceTree = "<group>"; };
+		C08CF23F1641C751007603E8 /* soomla_logo_new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = soomla_logo_new.png; sourceTree = "<group>"; };
+		C08CF24A1641C7D2007603E8 /* GoodDog.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GoodDog.otf; sourceTree = "<group>"; };
+		C08CF24C1641C840007603E8 /* StoreExampleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreExampleViewController.h; sourceTree = "<group>"; };
+		C08CF24D1641C840007603E8 /* StoreExampleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreExampleViewController.m; sourceTree = "<group>"; };
+		C08CF24F1641CA30007603E8 /* MuffinRushAssets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MuffinRushAssets.h; sourceTree = "<group>"; };
+		C08CF2501641CA30007603E8 /* MuffinRushAssets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MuffinRushAssets.m; sourceTree = "<group>"; };
+		C08CF2CB1641CFF3007603E8 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		C08CF2CD1641CFFE007603E8 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
+		C08CF2CF1641D004007603E8 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		C08CF2D11641D30C007603E8 /* muffin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = muffin.png; sourceTree = "<group>"; };
+		C08CF2D31641D34A007603E8 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
+		C08CF2D41641D34A007603E8 /* GetMore.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GetMore.png; sourceTree = "<group>"; };
+		C08CF2D71641D57C007603E8 /* VirtualGoodsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VirtualGoodsViewController.h; sourceTree = "<group>"; };
+		C08CF2D81641D57C007603E8 /* VirtualGoodsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VirtualGoodsViewController.m; sourceTree = "<group>"; };
+		C08CF2DA1642BDD5007603E8 /* chocolate_cake.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chocolate_cake.png; sourceTree = "<group>"; };
+		C08CF2DB1642BDD5007603E8 /* cream_cup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cream_cup.png; sourceTree = "<group>"; };
+		C08CF2DC1642BDD5007603E8 /* fruit_cake.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fruit_cake.png; sourceTree = "<group>"; };
+		C08CF2DD1642BDD5007603E8 /* pavlova.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pavlova.png; sourceTree = "<group>"; };
+		C08CF2E21642BFB7007603E8 /* VirtualGoodCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VirtualGoodCell.h; sourceTree = "<group>"; };
+		C08CF2E31642BFB7007603E8 /* VirtualGoodCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VirtualGoodCell.m; sourceTree = "<group>"; };
+		C08CF2EC16431847007603E8 /* VirtualCurrencyPackCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VirtualCurrencyPackCell.h; sourceTree = "<group>"; };
+		C08CF2ED16431847007603E8 /* VirtualCurrencyPackCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VirtualCurrencyPackCell.m; sourceTree = "<group>"; };
+		C08CF2EF164318AF007603E8 /* VirtualCurrencyPacksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VirtualCurrencyPacksViewController.h; sourceTree = "<group>"; };
+		C08CF2F0164318AF007603E8 /* VirtualCurrencyPacksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VirtualCurrencyPacksViewController.m; sourceTree = "<group>"; };
+		C08CF2F216431A4E007603E8 /* muffins01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = muffins01.png; sourceTree = "<group>"; };
+		C08CF2F316431A4E007603E8 /* muffins02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = muffins02.png; sourceTree = "<group>"; };
+		C08CF2F416431A4E007603E8 /* muffins03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = muffins03.png; sourceTree = "<group>"; };
+		C08CF2F516431A4E007603E8 /* muffins04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = muffins04.png; sourceTree = "<group>"; };
+		C08CF2FA164321F7007603E8 /* iOS Simulator Screen shot Nov 1, 2012 11.31.22 PM.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iOS Simulator Screen shot Nov 1, 2012 11.31.22 PM.png"; sourceTree = "<group>"; };
+		C08CF2FB164321F7007603E8 /* iOS Simulator Screen shot Nov 1, 2012 11.31.44 PM.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iOS Simulator Screen shot Nov 1, 2012 11.31.44 PM.png"; sourceTree = "<group>"; };
+		C08CF2FC164321F7007603E8 /* iOS Simulator Screen shot Nov 1, 2012 11.31.54 PM.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iOS Simulator Screen shot Nov 1, 2012 11.31.54 PM.png"; sourceTree = "<group>"; };
+		C08CF30416432235007603E8 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = ../../Icon.png; sourceTree = "<group>"; };
+		C08CF30616432239007603E8 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "../../Icon@2x.png"; sourceTree = "<group>"; };
+		C0969D361956CF3F007349A3 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		C0969D381956CF44007349A3 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		C0969D3A1956CF4A007349A3 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		C0969D3C1956CF4F007349A3 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		C0969D3E1956CF5A007349A3 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		C0969D401956CF60007349A3 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		C0969D421956CF66007349A3 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		C0969D441956CF6B007349A3 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		C0969D461956CF75007349A3 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C08CF2041641C68D007603E8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C03169101ADE834300AE4790 /* libSoomlaiOSCore.a in Frameworks */,
+				C031690E1ADE834300AE4790 /* libSoomlaiOSStore.a in Frameworks */,
+				C0969D471956CF75007349A3 /* SystemConfiguration.framework in Frameworks */,
+				C0969D451956CF6B007349A3 /* QuartzCore.framework in Frameworks */,
+				C0969D431956CF66007349A3 /* MediaPlayer.framework in Frameworks */,
+				C0969D411956CF60007349A3 /* libz.dylib in Frameworks */,
+				C0969D3F1956CF5A007349A3 /* CoreMedia.framework in Frameworks */,
+				C08CF2101641C68D007603E8 /* CoreGraphics.framework in Frameworks */,
+				C0969D3D1956CF4F007349A3 /* CFNetwork.framework in Frameworks */,
+				C0969D3B1956CF4A007349A3 /* AVFoundation.framework in Frameworks */,
+				C0969D391956CF44007349A3 /* AudioToolbox.framework in Frameworks */,
+				C0969D371956CF3F007349A3 /* AdSupport.framework in Frameworks */,
+				C08CF2D01641D004007603E8 /* Security.framework in Frameworks */,
+				C08CF2CE1641CFFE007603E8 /* libsqlite3.0.dylib in Frameworks */,
+				C08CF2CC1641CFF3007603E8 /* StoreKit.framework in Frameworks */,
+				C08CF20C1641C68D007603E8 /* UIKit.framework in Frameworks */,
+				C08CF20E1641C68D007603E8 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C0704D601ACE91BC0019195F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C0704D651ACE91BC0019195F /* libSoomlaiOSStore.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C08CF1FC1641C68D007603E8 = {
+			isa = PBXGroup;
+			children = (
+				C0704D5F1ACE91BC0019195F /* SoomlaiOSStore.xcodeproj */,
+				C08CF2111641C68D007603E8 /* SoomlaiOSStoreExample */,
+				C08CF20A1641C68D007603E8 /* Frameworks */,
+				C08CF2081641C68D007603E8 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C08CF2081641C68D007603E8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C08CF2071641C68D007603E8 /* SoomlaiOSStoreExample.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C08CF20A1641C68D007603E8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C031690F1ADE834300AE4790 /* libSoomlaiOSCore.a */,
+				C0704D671ACE91E20019195F /* libSoomlaiOSCore.a */,
+				C0969D461956CF75007349A3 /* SystemConfiguration.framework */,
+				C0969D441956CF6B007349A3 /* QuartzCore.framework */,
+				C0969D421956CF66007349A3 /* MediaPlayer.framework */,
+				C0969D401956CF60007349A3 /* libz.dylib */,
+				C0969D3E1956CF5A007349A3 /* CoreMedia.framework */,
+				C0969D3C1956CF4F007349A3 /* CFNetwork.framework */,
+				C0969D3A1956CF4A007349A3 /* AVFoundation.framework */,
+				C0969D381956CF44007349A3 /* AudioToolbox.framework */,
+				C0969D361956CF3F007349A3 /* AdSupport.framework */,
+				C08CF2CF1641D004007603E8 /* Security.framework */,
+				C08CF2CD1641CFFE007603E8 /* libsqlite3.0.dylib */,
+				C08CF2CB1641CFF3007603E8 /* StoreKit.framework */,
+				C08CF20B1641C68D007603E8 /* UIKit.framework */,
+				C08CF20D1641C68D007603E8 /* Foundation.framework */,
+				C08CF20F1641C68D007603E8 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C08CF2111641C68D007603E8 /* SoomlaiOSStoreExample */ = {
+			isa = PBXGroup;
+			children = (
+				C08CF2341641C751007603E8 /* resources */,
+				C08CF24F1641CA30007603E8 /* MuffinRushAssets.h */,
+				C08CF2501641CA30007603E8 /* MuffinRushAssets.m */,
+				C08CF21A1641C68D007603E8 /* AppDelegate.h */,
+				C08CF21B1641C68D007603E8 /* AppDelegate.m */,
+				C08CF2301641C707007603E8 /* MainStoryboard_iPhone.storyboard */,
+				C08CF24C1641C840007603E8 /* StoreExampleViewController.h */,
+				C08CF24D1641C840007603E8 /* StoreExampleViewController.m */,
+				C08CF2D71641D57C007603E8 /* VirtualGoodsViewController.h */,
+				C08CF2D81641D57C007603E8 /* VirtualGoodsViewController.m */,
+				C08CF2E21642BFB7007603E8 /* VirtualGoodCell.h */,
+				C08CF2E31642BFB7007603E8 /* VirtualGoodCell.m */,
+				C08CF2EC16431847007603E8 /* VirtualCurrencyPackCell.h */,
+				C08CF2ED16431847007603E8 /* VirtualCurrencyPackCell.m */,
+				C08CF2EF164318AF007603E8 /* VirtualCurrencyPacksViewController.h */,
+				C08CF2F0164318AF007603E8 /* VirtualCurrencyPacksViewController.m */,
+				C08CF2121641C68D007603E8 /* Supporting Files */,
+			);
+			path = SoomlaiOSStoreExample;
+			sourceTree = "<group>";
+		};
+		C08CF2121641C68D007603E8 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C08CF2131641C68D007603E8 /* SoomlaiOSStoreExample-Info.plist */,
+				C08CF2141641C68D007603E8 /* InfoPlist.strings */,
+				C08CF2171641C68D007603E8 /* main.m */,
+				C08CF2191641C68D007603E8 /* SoomlaiOSStoreExample-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C08CF2341641C751007603E8 /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				C08CF30616432239007603E8 /* Icon@2x.png */,
+				C08CF30416432235007603E8 /* Icon.png */,
+				C08CF2FA164321F7007603E8 /* iOS Simulator Screen shot Nov 1, 2012 11.31.22 PM.png */,
+				C08CF2FB164321F7007603E8 /* iOS Simulator Screen shot Nov 1, 2012 11.31.44 PM.png */,
+				C08CF2FC164321F7007603E8 /* iOS Simulator Screen shot Nov 1, 2012 11.31.54 PM.png */,
+				C08CF24A1641C7D2007603E8 /* GoodDog.otf */,
+				C08CF2351641C751007603E8 /* images */,
+			);
+			path = resources;
+			sourceTree = "<group>";
+		};
+		C08CF2351641C751007603E8 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				C08CF2F216431A4E007603E8 /* muffins01.png */,
+				C08CF2F316431A4E007603E8 /* muffins02.png */,
+				C08CF2F416431A4E007603E8 /* muffins03.png */,
+				C08CF2F516431A4E007603E8 /* muffins04.png */,
+				C08CF2DA1642BDD5007603E8 /* chocolate_cake.png */,
+				C08CF2DB1642BDD5007603E8 /* cream_cup.png */,
+				C08CF2DC1642BDD5007603E8 /* fruit_cake.png */,
+				C08CF2DD1642BDD5007603E8 /* pavlova.png */,
+				C08CF2D31641D34A007603E8 /* back.png */,
+				C08CF2D41641D34A007603E8 /* GetMore.png */,
+				C08CF2D11641D30C007603E8 /* muffin.png */,
+				C08CF2361641C751007603E8 /* Default-568h@2x.png */,
+				C08CF2371641C751007603E8 /* Default.png */,
+				C08CF2381641C751007603E8 /* Default@2x.png */,
+				C08CF2391641C751007603E8 /* gradient.png */,
+				C08CF23A1641C751007603E8 /* Icon.png */,
+				C08CF23B1641C751007603E8 /* Icon@2x.png */,
+				C08CF23C1641C751007603E8 /* img_direct.jpg */,
+				C08CF23D1641C751007603E8 /* right_bg.png */,
+				C08CF23E1641C751007603E8 /* right_bg_hover.png */,
+				C08CF23F1641C751007603E8 /* soomla_logo_new.png */,
+			);
+			path = images;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C08CF2061641C68D007603E8 /* SoomlaiOSStoreExample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C08CF22B1641C68D007603E8 /* Build configuration list for PBXNativeTarget "SoomlaiOSStoreExample" */;
+			buildPhases = (
+				C08CF2031641C68D007603E8 /* Sources */,
+				C08CF2041641C68D007603E8 /* Frameworks */,
+				C08CF2051641C68D007603E8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C03169141ADFFC8200AE4790 /* PBXTargetDependency */,
+			);
+			name = SoomlaiOSStoreExample;
+			productName = SoomlaiOSStoreExample;
+			productReference = C08CF2071641C68D007603E8 /* SoomlaiOSStoreExample.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C08CF1FE1641C68D007603E8 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = SOOMLA;
+				TargetAttributes = {
+					C08CF2061641C68D007603E8 = {
+						DevelopmentTeam = DS7QA8Y758;
+					};
+				};
+			};
+			buildConfigurationList = C08CF2011641C68D007603E8 /* Build configuration list for PBXProject "SoomlaiOSStoreExample" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = C08CF1FC1641C68D007603E8;
+			productRefGroup = C08CF2081641C68D007603E8 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = C0704D601ACE91BC0019195F /* Products */;
+					ProjectRef = C0704D5F1ACE91BC0019195F /* SoomlaiOSStore.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				C08CF2061641C68D007603E8 /* SoomlaiOSStoreExample */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		C0704D651ACE91BC0019195F /* libSoomlaiOSStore.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSoomlaiOSStore.a;
+			remoteRef = C0704D641ACE91BC0019195F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C08CF2051641C68D007603E8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C08CF2161641C68D007603E8 /* InfoPlist.strings in Resources */,
+				C08CF2331641C707007603E8 /* MainStoryboard_iPhone.storyboard in Resources */,
+				C08CF2401641C751007603E8 /* Default-568h@2x.png in Resources */,
+				C08CF2411641C751007603E8 /* Default.png in Resources */,
+				C08CF2421641C751007603E8 /* Default@2x.png in Resources */,
+				C08CF2431641C751007603E8 /* gradient.png in Resources */,
+				C08CF2441641C751007603E8 /* Icon.png in Resources */,
+				C08CF2451641C751007603E8 /* Icon@2x.png in Resources */,
+				C08CF2461641C751007603E8 /* img_direct.jpg in Resources */,
+				C08CF2471641C751007603E8 /* right_bg.png in Resources */,
+				C08CF2481641C751007603E8 /* right_bg_hover.png in Resources */,
+				C08CF2491641C751007603E8 /* soomla_logo_new.png in Resources */,
+				C08CF24B1641C7D2007603E8 /* GoodDog.otf in Resources */,
+				C08CF2D21641D30C007603E8 /* muffin.png in Resources */,
+				C08CF2D51641D34A007603E8 /* back.png in Resources */,
+				C08CF2D61641D34A007603E8 /* GetMore.png in Resources */,
+				C08CF2DE1642BDD5007603E8 /* chocolate_cake.png in Resources */,
+				C08CF2DF1642BDD5007603E8 /* cream_cup.png in Resources */,
+				C08CF2E01642BDD5007603E8 /* fruit_cake.png in Resources */,
+				C08CF2E11642BDD5007603E8 /* pavlova.png in Resources */,
+				C08CF2F616431A4E007603E8 /* muffins01.png in Resources */,
+				C08CF2F716431A4E007603E8 /* muffins02.png in Resources */,
+				C08CF2F816431A4E007603E8 /* muffins03.png in Resources */,
+				C08CF2F916431A4E007603E8 /* muffins04.png in Resources */,
+				C08CF2FD164321F7007603E8 /* iOS Simulator Screen shot Nov 1, 2012 11.31.22 PM.png in Resources */,
+				C08CF2FE164321F7007603E8 /* iOS Simulator Screen shot Nov 1, 2012 11.31.44 PM.png in Resources */,
+				C08CF2FF164321F7007603E8 /* iOS Simulator Screen shot Nov 1, 2012 11.31.54 PM.png in Resources */,
+				C08CF30516432235007603E8 /* Icon.png in Resources */,
+				C08CF30716432239007603E8 /* Icon@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C08CF2031641C68D007603E8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C08CF2181641C68D007603E8 /* main.m in Sources */,
+				C08CF21C1641C68D007603E8 /* AppDelegate.m in Sources */,
+				C08CF24E1641C840007603E8 /* StoreExampleViewController.m in Sources */,
+				C08CF2511641CA30007603E8 /* MuffinRushAssets.m in Sources */,
+				C08CF2D91641D57C007603E8 /* VirtualGoodsViewController.m in Sources */,
+				C08CF2E41642BFB7007603E8 /* VirtualGoodCell.m in Sources */,
+				C08CF2EE16431847007603E8 /* VirtualCurrencyPackCell.m in Sources */,
+				C08CF2F1164318AF007603E8 /* VirtualCurrencyPacksViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C03169141ADFFC8200AE4790 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SoomlaiOSStore;
+			targetProxy = C03169131ADFFC8200AE4790 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		C08CF2141641C68D007603E8 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C08CF2151641C68D007603E8 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		C08CF2301641C707007603E8 /* MainStoryboard_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C08CF2311641C707007603E8 /* en */,
+			);
+			name = MainStoryboard_iPhone.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C08CF2291641C68D007603E8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		C08CF22A1641C68D007603E8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C08CF22C1641C68D007603E8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SoomlaiOSStoreExample/SoomlaiOSStoreExample-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"../build/headers/**",
+				);
+				INFOPLIST_FILE = "SoomlaiOSStoreExample/SoomlaiOSStoreExample-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"../build/**",
+					"/Users/refaelos/work/soomla/framework/ios/ios-store/submodules/soomla-ios-core/out/Debug-iphoneos",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/SoomlaiOSStoreExample-gyfmkmdyhelmnmdemlfywkmdgacc/Build/Products/Debug-iphoneos",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		C08CF22D1641C68D007603E8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SoomlaiOSStoreExample/SoomlaiOSStoreExample-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"../build/headers/**",
+				);
+				INFOPLIST_FILE = "SoomlaiOSStoreExample/SoomlaiOSStoreExample-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"../build/**",
+					"/Users/refaelos/work/soomla/framework/ios/ios-store/submodules/soomla-ios-core/out/Debug-iphoneos",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/SoomlaiOSStoreExample-gyfmkmdyhelmnmdemlfywkmdgacc/Build/Products/Debug-iphoneos",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C08CF2011641C68D007603E8 /* Build configuration list for PBXProject "SoomlaiOSStoreExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C08CF2291641C68D007603E8 /* Debug */,
+				C08CF22A1641C68D007603E8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C08CF22B1641C68D007603E8 /* Build configuration list for PBXNativeTarget "SoomlaiOSStoreExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C08CF22C1641C68D007603E8 /* Debug */,
+				C08CF22D1641C68D007603E8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C08CF1FE1641C68D007603E8 /* Project object */;
+}

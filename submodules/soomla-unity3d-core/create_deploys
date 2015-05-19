@@ -1,0 +1,10 @@
+
+echo "creating unitypackage for SOOMLA Core"
+
+/Applications/Unity/Unity.app/Contents/MacOS/Unity \
+  -batchmode \
+  -logFile create_unity.log \
+  -projectPath $PWD/Soomla/ \
+  -exportPackage Assets \
+  $PWD/soomla-unity3d-core.unitypackage \
+  -quit

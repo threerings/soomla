@@ -1,0 +1,6 @@
+
+rm -rf build
+
+xcodebuild -configuration Release -sdk iphoneos -project UnitySoomlaiOSCore.xcodeproj -target UnitySoomlaiOSCore clean build CREATING_UNIVERSAL_DIR=$PWD/build/release
+
+cp build/release/libUnitySoomlaiOSCore.a ../../../Soomla/Assets/Plugins/iOS/
