@@ -2,3 +2,7 @@ soomla-native/projects/unity-ios-store/build
 soomla-native/projects/unity-ios-store/UnityiOSStore.xcodeproj
 submodules/soomla-unity3d-core/soomla-native/projects/unity-soomla-ios-core/UnitySoomlaiOSCore.xcodeproj
 submodules/soomla-unity3d-core/soomla-native/projects/unity-soomla-ios-core/build
+submodules/ios-store/SoomlaiOSStore.xcodeproj
+submodules/ios-store/out
+submodules/ios-store/submodules/soomla-ios-core/out
+submodules/ios-store/build
