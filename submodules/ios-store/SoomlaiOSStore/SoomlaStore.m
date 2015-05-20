@@ -177,7 +177,9 @@ static NSString* developerPayload = NULL;
     [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
 }
 
-- (void)purchaseVerified:(NSNotification*)notification{
+- (void)purchaseVerified:(NSNotification*)notification
+{
+    NSLog(@"LISA - SoomlaStore got purchase verified event!");
     [[NSNotificationCenter defaultCenter] removeObserver:self name:EVENT_MARKET_PURCHASE_VERIF object:notification.object];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:EVENT_UNEXPECTED_ERROR_IN_STORE object:notification.object];
     
@@ -195,7 +197,9 @@ static NSString* developerPayload = NULL;
     }
 }
 
-- (void)unexpectedVerificationError:(NSNotification*)notification{
+- (void)unexpectedVerificationError:(NSNotification*)notification
+{
+    NSLog(@"LISA - SoomlaStore got purchase verify error!");
     [[NSNotificationCenter defaultCenter] removeObserver:self name:EVENT_MARKET_PURCHASE_VERIF object:notification.object];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:EVENT_UNEXPECTED_ERROR_IN_STORE object:notification.object];
 }
@@ -205,16 +209,12 @@ static NSString* developerPayload = NULL;
     @try {
         PurchasableVirtualItem* pvi = [[StoreInfo getInstance] purchasableItemWithProductId:transaction.payment.productIdentifier];
 
-        if (VERIFY_PURCHASES) {
-            SoomlaVerification *sv = [[SoomlaVerification alloc] initWithTransaction:transaction andPurchasable:pvi];
-            
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(purchaseVerified:) name:EVENT_MARKET_PURCHASE_VERIF object:sv];
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(unexpectedVerificationError:) name:EVENT_UNEXPECTED_ERROR_IN_STORE object:sv];
+        SoomlaVerification *sv = [[SoomlaVerification alloc] initWithTransaction:transaction andPurchasable:pvi];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(purchaseVerified:) name:EVENT_MARKET_PURCHASE_VERIF object:sv];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(unexpectedVerificationError:) name:EVENT_UNEXPECTED_ERROR_IN_STORE object:sv];
 
-            [sv verifyData];
-        } else {
-            [self finalizeTransaction:transaction forPurchasable:pvi];
-        }
+        [sv verifyData];
 
     } @catch (VirtualItemNotFoundException* e) {
         LogError(TAG, ([NSString stringWithFormat:@"An error occured when handling copmleted purchase for PurchasableVirtualItem with productId: %@"

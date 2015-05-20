@@ -13,7 +13,6 @@ static UnityStoreEventDispatcher* instance = nil;
 
 extern "C"{
     void eventDispatcher_Init(const char* recieverName) {
-        NSLog(@"LISA - store init with name %@", [NSString stringWithUTF8String:recieverName]);
         LogDebug(@"SOOMLA Unity UnityStoreEventDispatcher", @"Initializing StoreEventHandler ...");
         [UnityStoreEventDispatcher initialize:[NSString stringWithUTF8String:recieverName]];
     }
@@ -111,7 +110,7 @@ extern "C"{
     if (notification.object == self) {
         return;
     }
-    NSLog(@"LISA - store sending event to reciever %@", _recieverName);
+
     const char* reciever = [_recieverName UTF8String];
 
 	if ([notification.name isEqualToString:EVENT_BILLING_NOT_SUPPORTED]) {
@@ -201,6 +200,16 @@ extern "C"{
                                                             }];
         UnitySendMessage(reciever, "onMarketPurchaseStarted", [jsonStr UTF8String]);
 	}
+    else if ([notification.name isEqualToString:EVENT_MARKET_PURCHASE_VERIFY_START]) {
+        NSDictionary* userInfo = [notification userInfo];
+        PurchasableVirtualItem* pvi = (PurchasableVirtualItem*)[userInfo objectForKey:DICT_ELEMENT_PURCHASABLE];
+        NSString* jsonStr = [SoomlaUtils dictToJsonString:@{
+                                                            @"itemId": pvi.itemId,
+                                                            @"receipt": [userInfo objectForKey:DICT_ELEMENT_RECEIPT],
+                                                            @"token": [userInfo objectForKey:DICT_ELEMENT_TOKEN]
+                                                            }];
+        UnitySendMessage(reciever, "onMarketPurchaseVerifyStarted", [jsonStr UTF8String]);
+    }
     else if ([notification.name isEqualToString:EVENT_RESTORE_TRANSACTIONS_FINISHED]) {
         NSDictionary* userInfo = [notification userInfo];
         NSString* jsonStr = [SoomlaUtils dictToJsonString:@{

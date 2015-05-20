@@ -52,30 +52,59 @@ static NSString* TAG = @"SOOMLA SoomlaVerification";
     
     if (data) {
         
-        NSDictionary* postDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                                  [data base64Encoding], @"receipt_base64",
-                                  nil];
-
-        NSData *postData = [[SoomlaUtils dictToJsonString:postDict] dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+        // post event for client to listen to and start listening for client response.
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(purchaseVerified:) name:EVENT_MARKET_PURCHASE_VERIF_CLIENT object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(purchaseError:) name:EVENT_MARKET_PURCHASE_VERIF_ERROR object:nil];
         
-        NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
+        NSString* receiptString = [data base64Encoding];
+        NSLog(@"LISA - Start verify transaciton code. send event to client! receipt = %@", receiptString);
+        [StoreEventHandling postMarketPurchaseVerifyStart:receiptString andPurchasable:purchasable];
         
-        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-        
-        LogDebug(TAG, ([NSString stringWithFormat:@"verifying purchase on server: %@", VERIFY_URL]));
-        
-        [request setURL:[NSURL URLWithString:VERIFY_URL]];
-        [request setHTTPMethod:@"POST"];
-        [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        [request setHTTPBody:postData];
-        
-        NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-        [conn start];
+//
+//        NSDictionary* postDict = [NSDictionary dictionaryWithObjectsAndKeys:
+//                                  [data base64Encoding], @"receipt_base64",
+//                                  nil];
+//
+//        NSData *postData = [[SoomlaUtils dictToJsonString:postDict] dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+//        
+//        NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
+//        
+//        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+//        
+//        LogDebug(TAG, ([NSString stringWithFormat:@"verifying purchase on server: %@", VERIFY_URL]));
+//        
+//        [request setURL:[NSURL URLWithString:VERIFY_URL]];
+//        [request setHTTPMethod:@"POST"];
+//        [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+//        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+//        [request setHTTPBody:postData];
+//        
+//        NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+//        [conn start];
     } else {
         LogError(TAG, ([NSString stringWithFormat:@"An error occured while trying to get receipt data. Stopping the purchasing process for: %@", transaction.payment.productIdentifier]));
         [StoreEventHandling postUnexpectedError:ERR_VERIFICATION_TIMEOUT forObject:self];
     }
+}
+
+- (void)purchaseError:(NSNotification*)notification
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:EVENT_MARKET_PURCHASE_VERIF_CLIENT object:notification.object];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:EVENT_MARKET_PURCHASE_VERIF_ERROR object:notification.object];
+    
+    [StoreEventHandling postUnexpectedError:ERR_CLIENT_VERIFY_FAIL forObject:self];
+}
+
+- (void)purchaseVerified:(NSNotification*)notification
+{
+    // got client response, send event back to soomlaStore and deregister self listener.
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:EVENT_MARKET_PURCHASE_VERIF_CLIENT object:notification.object];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:EVENT_MARKET_PURCHASE_VERIF_ERROR object:notification.object];
+    
+    NSDictionary* userInfo = notification.userInfo;
+    NSLog(@"LISA - SoomlaVerification got client purchase verified event with result %@", [userInfo objectForKey:DICT_ELEMENT_VERIFIED]);
+
+    [StoreEventHandling postMarketPurchaseVerification:[userInfo objectForKey:DICT_ELEMENT_VERIFIED] forItem:purchasable andTransaction:transaction forObject:nil];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {

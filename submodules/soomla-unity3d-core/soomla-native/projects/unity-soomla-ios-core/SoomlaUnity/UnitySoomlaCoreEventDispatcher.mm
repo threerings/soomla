@@ -22,7 +22,6 @@
 }
 
 - (void)handleEvent:(NSNotification*)notification {
-    NSLog(@"LISA - core sending event to reciever %@", _recieverName);
     const char* reciever = [_recieverName UTF8String];
     
 	if ([notification.name isEqualToString:EVENT_REWARD_GIVEN]) {

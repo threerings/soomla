@@ -8,6 +8,7 @@
 #import "PurchasableVirtualItem.h"
 #import "PurchaseWithMarket.h"
 #import "SoomlaUtils.h"
+#import "StoreEventHandling.h"
 
 extern "C"{
     
@@ -59,6 +60,16 @@ extern "C"{
 
 	void soomlaStore_TransactionsAlreadyRestored(bool* outResult){
 		*outResult = [[SoomlaStore getInstance] transactionsAlreadyRestored];
-	}
+    }
+    
+    void soomlaStore_setMarketPurchaseVerified(bool success) {
+        NSLog(@"LISA - set purchase verified: %d", success);
+        [StoreEventHandling postMarketPurchaseClientVerifyResult:success];
+    }
+    
+    void soomlaStore_setMarketPurchaseVerifyError() {
+        NSLog(@"LISA - got client error with verification!");
+        //[StoreEventHandling postMarketPurchaseClientVerifyResult:success];
+    }
 
 }

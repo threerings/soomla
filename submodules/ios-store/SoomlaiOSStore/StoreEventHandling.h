@@ -37,7 +37,10 @@
 #define EVENT_ITEM_PURCHASE_STARTED         @"ItemPurchaseProcessStarted"
 #define EVENT_MARKET_PURCHASE_CANCELLED     @"MarketPurchaseCancelled"
 #define EVENT_MARKET_PURCHASED              @"MarketPurchased"
+#define EVENT_MARKET_PURCHASE_VERIFY_START  @"MarketPurchaseVerifyStart"
 #define EVENT_MARKET_PURCHASE_VERIF         @"MarketPurchaseVerification"
+#define EVENT_MARKET_PURCHASE_VERIF_CLIENT  @"MarketPurchaseVerificationClientResult"
+#define EVENT_MARKET_PURCHASE_VERIF_ERROR   @"MarketPurchaseVerificationError"
 #define EVENT_MARKET_PURCHASE_STARTED       @"MarketPurchaseProcessStarted"
 #define EVENT_RESTORE_TRANSACTIONS_FINISHED @"RestoreTransactionsFinished"
 #define EVENT_RESTORE_TRANSACTIONS_STARTED  @"RestoreTransactionsStarted"
@@ -78,6 +81,7 @@
 #define ERR_VERIFICATION_TIMEOUT    1
 #define ERR_VERIFICATION_FAIL       2
 #define ERR_PURCHASE_FAIL           3
+#define ERR_CLIENT_VERIFY_FAIL      4
 
 
 /**
@@ -111,6 +115,12 @@
 + (void)postMarketPurchaseCancelled:(PurchasableVirtualItem*)purchasableVirtualItem;
 
 + (void)postMarketPurchase:(PurchasableVirtualItem*)purchasableVirtualItem withReceiptUrl:(NSURL*)receiptUrl andPurchaseToken:(NSString*)token andPayload:(NSString*)payload;
+
++ (void)postMarketPurchaseVerifyStart:(NSString*)receipt andPurchasable:(PurchasableVirtualItem*)pvi;
+
++ (void)postMarketPurchaseClientVerifyResult:(BOOL)verified;
+
++ (void)postMarketPurchaseClientVerifyError;
 
 + (void)postMarketPurchaseVerification:(BOOL)verified forItem:(PurchasableVirtualItem*)purchasableVirtualItem andTransaction:(SKPaymentTransaction*)transaction forObject:(id)object;
 

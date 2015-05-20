@@ -118,6 +118,26 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_MARKET_PURCHASED object:self userInfo:userInfo];
 }
 
++ (void)postMarketPurchaseVerifyStart:(NSString*)receipt andPurchasable:(PurchasableVirtualItem*)pvi
+{
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+                              receipt, DICT_ELEMENT_RECEIPT,
+                              "", DICT_ELEMENT_TOKEN, // TODO: token is only for android side?
+                              pvi, DICT_ELEMENT_PURCHASABLE, nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_MARKET_PURCHASE_VERIFY_START object:self userInfo:userInfo];
+}
+
++ (void)postMarketPurchaseClientVerifyResult:(BOOL)verified
+{
+    NSDictionary *userInfo = @{DICT_ELEMENT_VERIFIED: [NSNumber numberWithBool:verified]};
+    [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_MARKET_PURCHASE_VERIF_CLIENT object:self userInfo:userInfo];
+}
+
++ (void)postMarketPurchaseClientVerifyError
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_MARKET_PURCHASE_VERIF_ERROR object:self userInfo:nil];
+}
+
 + (void)postMarketPurchaseVerification:(BOOL)verified forItem:(PurchasableVirtualItem*)purchasableVirtualItem andTransaction:(SKPaymentTransaction*)transaction forObject:(id)object {
     NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
                               purchasableVirtualItem, DICT_ELEMENT_PURCHASABLE,

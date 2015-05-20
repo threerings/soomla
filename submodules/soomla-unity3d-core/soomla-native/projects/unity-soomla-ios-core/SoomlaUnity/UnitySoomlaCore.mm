@@ -10,7 +10,6 @@
 
 extern "C" {
     void soomlaCore_Init(const char* recieverName, const char* secret, bool debug) {
-        NSLog(@"LISA - core init with name %@", [NSString stringWithUTF8String:recieverName]);
         LogDebug(@"SOOMLA Unity UnitySoomlaCore", @"Initializing SoomlaEventHandler ...");
         
         DEBUG_LOG = debug;
