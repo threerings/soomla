@@ -31,9 +31,19 @@
 @interface SoomlaStore : NSObject <SKProductsRequestDelegate, SKPaymentTransactionObserver>{
     @private
     BOOL initialized;
+    
+    @private
+    NSMutableDictionary* verifiers;
+    
+    @private
+    int transactionIdGenerator;
 }
 
 @property BOOL initialized;
+
+@property (nonatomic, retain) NSMutableDictionary* verifiers;
+
+@property int transactionIdGenerator;
 
 
 + (SoomlaStore*)getInstance;

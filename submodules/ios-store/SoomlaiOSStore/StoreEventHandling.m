@@ -42,6 +42,9 @@
     [[NSNotificationCenter defaultCenter] addObserver:observer selector:selector name:EVENT_MARKET_ITEMS_REFRESH_STARTED object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:observer selector:selector name:EVENT_MARKET_ITEMS_REFRESH_FINISHED object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:observer selector:selector name:EVENT_MARKET_ITEMS_REFRESH_FAILED object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:observer selector:selector name:EVENT_MARKET_PURCHASE_VERIFY_START object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:observer selector:selector name:EVENT_MARKET_PURCHASE_VERIF_CLIENT object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:observer selector:selector name:EVENT_MARKET_PURCHASE_VERIF_ERROR object:nil];
 }
 
 + (void)postBillingSupported{
@@ -118,24 +121,13 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_MARKET_PURCHASED object:self userInfo:userInfo];
 }
 
-+ (void)postMarketPurchaseVerifyStart:(NSString*)receipt andPurchasable:(PurchasableVirtualItem*)pvi
++ (void)postMarketPurchaseVerifyStart:(NSString*)receipt andTransactionId:(int)transactionId
 {
     NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
                               receipt, DICT_ELEMENT_RECEIPT,
-                              "", DICT_ELEMENT_TOKEN, // TODO: token is only for android side?
-                              pvi, DICT_ELEMENT_PURCHASABLE, nil];
+                              [NSNumber numberWithInt:transactionId], DICT_ELEMENT_TRANSACTION_ID,
+                              nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_MARKET_PURCHASE_VERIFY_START object:self userInfo:userInfo];
-}
-
-+ (void)postMarketPurchaseClientVerifyResult:(BOOL)verified
-{
-    NSDictionary *userInfo = @{DICT_ELEMENT_VERIFIED: [NSNumber numberWithBool:verified]};
-    [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_MARKET_PURCHASE_VERIF_CLIENT object:self userInfo:userInfo];
-}
-
-+ (void)postMarketPurchaseClientVerifyError
-{
-    [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_MARKET_PURCHASE_VERIF_ERROR object:self userInfo:nil];
 }
 
 + (void)postMarketPurchaseVerification:(BOOL)verified forItem:(PurchasableVirtualItem*)purchasableVirtualItem andTransaction:(SKPaymentTransaction*)transaction forObject:(id)object {

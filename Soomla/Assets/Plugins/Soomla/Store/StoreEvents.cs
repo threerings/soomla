@@ -355,6 +355,27 @@ namespace Soomla.Store {
 			StoreEvents.OnMarketPurchaseStarted(pvi);
 		}
 
+        /// <summary>
+        /// Handles the <c>onMarketPurchaseVerifyStarted</c> event, which is fired after a puchase has started
+        /// and the native level is requesting for the client to verify the purchase with the server.
+        /// </summary>
+        /// <param name="message">Contains info for the verification.</param>
+        public void onMarketPurchaseVerifyStarted (string message) {
+            var eventJSON = new JSONObject(message);
+
+            int transactionId = (int)eventJSON["transactionId"].n;
+            string signature = "";
+            string receipt = "";
+            if (eventJSON.HasField("receipt")) {
+                receipt = eventJSON["receipt"].str;
+            }
+            if (eventJSON.HasField("signature")) {
+                signature = eventJSON["signature"].str;
+            }
+
+            StoreEvents.OnMarketPurchaseVerifyStarted(transactionId, receipt, signature);
+        }
+
 		/// <summary>
 		/// Handles the <c>onMarketRefund</c> event, which is fired when a Market refund has been issued.
 		/// </summary>
@@ -508,6 +529,29 @@ namespace Soomla.Store {
 			}
 		}
 
+        /// <summary>
+        /// Sets the market transaction verifed.
+        /// </summary>
+        /// <param name="transactionId">The unique id for the transaction</param>
+        /// <param name="success">If set to <c>true</c> verified.</param>
+        public void sendMarketPurchaseVerifiedEvent(int transactionId, bool success) {
+        SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY sendMarketPurchaseVerifiedEvent transactionId = "+transactionId+" success = " + success);
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+            sep.PushEventMarketPurchaseVerified(transactionId, success);
+#endif
+        }
+
+        /// <summary>
+        /// Tells the market transction verification that an error has occured.
+        /// </summary>
+        /// <param name="transactionId">The unique id for the transaction</param>
+        public void sendMarketPurchaseVerifyErrorEvent(int transactionId) {
+            SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY sendMarketPurchaseVerifyErrorEvent  transactionId = "+transactionId);
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+            sep.PushEventMarketPurchaseVerifyError(transactionId);
+#endif
+        }
+
 #if UNITY_ANDROID && !UNITY_EDITOR
 		public void onIabServiceStarted(string message) {
 			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onIabServiceStarted");
@@ -548,6 +592,8 @@ namespace Soomla.Store {
 		public static Action<PurchasableVirtualItem, string, Dictionary<string, string>> OnMarketPurchase = delegate {};
 
 		public static Action<PurchasableVirtualItem> OnMarketPurchaseStarted = delegate {};
+
+        public static Action<int, string, string> OnMarketPurchaseVerifyStarted = delegate {};
 
 		public static Action<PurchasableVirtualItem> OnMarketRefund = delegate {};
 
@@ -629,6 +675,12 @@ namespace Soomla.Store {
 
 				_pushEventItemPurchaseStarted(eventJSON.print());
 			}
+            public void PushEventMarketPurchaseVerified(int transactionId, bool success) {
+                _pushEventMarketPurchaseVerified(transactionId, success);
+            }
+            public void PushEventMarketPurchaseVerifyError(int transactionId) {
+                _pushEventMarketPurchaseVerifyError(transactionId);
+            }
 
 
 			// Event pushing back to native
@@ -641,6 +693,8 @@ namespace Soomla.Store {
 			protected virtual void _pushEventGoodUpgrade(string message) {}
 			protected virtual void _pushEventItemPurchased(string message) {}
 			protected virtual void _pushEventItemPurchaseStarted(string message) {}
+            protected virtual void _pushEventMarketPurchaseVerified(int transactionId, bool success) {}
+            protected virtual void _pushEventMarketPurchaseVerifyError(int transactionId) {}
 #endif
 		}
 

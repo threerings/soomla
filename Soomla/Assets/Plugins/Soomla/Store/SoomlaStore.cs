@@ -90,6 +90,25 @@ namespace Soomla.Store
 			return true;
 		}
 
+        /// <summary>
+        /// Sets the market transaction verification status.
+        /// The transaction cannot complete until this is called.
+        /// </summary>
+        /// <param name="transactionId">The unique id for the transaction.</param>
+        /// <param name="verified">If set to <c>true</c> verified.</param>
+        public static void SetMarketTransactionVerifed(int transactionId, bool verified) {
+            StoreEvents.Instance.sendMarketPurchaseVerifiedEvent(transactionId, verified);
+        }
+
+        /// <summary>
+        /// Sets the market transaction verification process as errored.
+        /// The transaction will not compelete.
+        /// <param name="transactionId">The unique id for the transaction.</param>
+        /// </summary>
+        public static void SetMarketTransactionVerifyError(int transactionId) {
+            StoreEvents.Instance.sendMarketPurchaseVerifyErrorEvent(transactionId);
+        }
+
 		/// <summary>
 		/// Starts a purchase process in the market.
 		/// </summary>

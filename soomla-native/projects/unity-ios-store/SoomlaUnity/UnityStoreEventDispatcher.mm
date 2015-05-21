@@ -88,6 +88,18 @@ extern "C"{
         
         [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_ITEM_PURCHASE_STARTED object:instance userInfo:userInfo];
     }
+    
+    void eventDispatcher_SetMarketPurchaseVerified(int transactionId, bool success) {
+        NSDictionary *userInfo = @{
+                                   DICT_ELEMENT_VERIFIED: [NSNumber numberWithBool:success],
+                                   DICT_ELEMENT_TRANSACTION_ID: [NSNumber numberWithInt:transactionId]};
+        [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_MARKET_PURCHASE_VERIF_CLIENT object:instance userInfo:userInfo];
+    }
+    
+    void eventDispatcher_SetMarketPurchaseVerifyError(int transactionId) {
+        NSDictionary *userInfo = @{DICT_ELEMENT_TRANSACTION_ID: [NSNumber numberWithInt:transactionId]};
+        [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_MARKET_PURCHASE_VERIF_ERROR object:instance userInfo:userInfo];
+    }
 }
 
 @implementation UnityStoreEventDispatcher
@@ -202,11 +214,9 @@ extern "C"{
 	}
     else if ([notification.name isEqualToString:EVENT_MARKET_PURCHASE_VERIFY_START]) {
         NSDictionary* userInfo = [notification userInfo];
-        PurchasableVirtualItem* pvi = (PurchasableVirtualItem*)[userInfo objectForKey:DICT_ELEMENT_PURCHASABLE];
         NSString* jsonStr = [SoomlaUtils dictToJsonString:@{
-                                                            @"itemId": pvi.itemId,
+                                                            @"transactionId": [userInfo objectForKey:DICT_ELEMENT_TRANSACTION_ID],
                                                             @"receipt": [userInfo objectForKey:DICT_ELEMENT_RECEIPT],
-                                                            @"token": [userInfo objectForKey:DICT_ELEMENT_TOKEN]
                                                             }];
         UnitySendMessage(reciever, "onMarketPurchaseVerifyStarted", [jsonStr UTF8String]);
     }

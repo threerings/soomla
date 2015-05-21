@@ -26,15 +26,22 @@
 
 static NSString* TAG = @"SOOMLA SoomlaVerification";
 
-- (id) initWithTransaction:(SKPaymentTransaction*)t andPurchasable:(PurchasableVirtualItem*)pvi {
+- (id) initWithTransaction:(SKPaymentTransaction*)t andPurchasable:(PurchasableVirtualItem*)pvi andTransactionId:(int)tid {
     if (self = [super init]) {
         transaction = t;
         purchasable = pvi;
+        transactionId = tid;
+        // Tell ARC to not dealloc this class instance. until we say so.
+        selfRef = CFBridgingRetain(self);
     }
     
     return self;
 }
 
+/**
+ * Starts the receipt verification process.
+ * Sends an event to the Unity client with the receipt data and listens for a response.
+ */
 - (void)verifyData {
     LogDebug(TAG, ([NSString stringWithFormat:@"verifying purchase for: %@", transaction.payment.productIdentifier]));
     
@@ -57,108 +64,50 @@ static NSString* TAG = @"SOOMLA SoomlaVerification";
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(purchaseError:) name:EVENT_MARKET_PURCHASE_VERIF_ERROR object:nil];
         
         NSString* receiptString = [data base64Encoding];
-        NSLog(@"LISA - Start verify transaciton code. send event to client! receipt = %@", receiptString);
-        [StoreEventHandling postMarketPurchaseVerifyStart:receiptString andPurchasable:purchasable];
-        
-//
-//        NSDictionary* postDict = [NSDictionary dictionaryWithObjectsAndKeys:
-//                                  [data base64Encoding], @"receipt_base64",
-//                                  nil];
-//
-//        NSData *postData = [[SoomlaUtils dictToJsonString:postDict] dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-//        
-//        NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
-//        
-//        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-//        
-//        LogDebug(TAG, ([NSString stringWithFormat:@"verifying purchase on server: %@", VERIFY_URL]));
-//        
-//        [request setURL:[NSURL URLWithString:VERIFY_URL]];
-//        [request setHTTPMethod:@"POST"];
-//        [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-//        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-//        [request setHTTPBody:postData];
-//        
-//        NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-//        [conn start];
+        [StoreEventHandling postMarketPurchaseVerifyStart:receiptString andTransactionId:transactionId];
     } else {
         LogError(TAG, ([NSString stringWithFormat:@"An error occured while trying to get receipt data. Stopping the purchasing process for: %@", transaction.payment.productIdentifier]));
         [StoreEventHandling postUnexpectedError:ERR_VERIFICATION_TIMEOUT forObject:self];
     }
 }
 
+/**
+ * Executes when Unity sends back a EVENT_MARKET_PURCHASE_VERIF_ERROR event
+ * meaning something unexpected happened when verifying the receipt. (invalid receipts will still go to the verified code path.)
+ */
 - (void)purchaseError:(NSNotification*)notification
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:EVENT_MARKET_PURCHASE_VERIF_CLIENT object:notification.object];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:EVENT_MARKET_PURCHASE_VERIF_ERROR object:notification.object];
+    NSDictionary* userInfo = notification.userInfo;
+    NSNumber* messageId = [userInfo objectForKey:DICT_ELEMENT_TRANSACTION_ID];
+
+    if (messageId.intValue == transactionId) {
+        LogError(TAG, ([NSString stringWithFormat:@"Unity sent an error response for transaction id %@", messageId]));
+        [StoreEventHandling postUnexpectedError:EVENT_UNEXPECTED_ERROR_IN_STORE forObject:self];
     
-    [StoreEventHandling postUnexpectedError:ERR_CLIENT_VERIFY_FAIL forObject:self];
+        // Deregister for messages and tell ARC that its okay to release ourselves.
+        [[NSNotificationCenter defaultCenter] removeObserver:self];
+        CFBridgingRelease(selfRef);
+    }
 }
 
+/**
+ * Executes when Unity sends back an event EVENT_MARKET_PURCHASE_VERIF_CLIENT.
+ * Responds with a success or failure status and the transaciton id.
+ */
 - (void)purchaseVerified:(NSNotification*)notification
 {
     // got client response, send event back to soomlaStore and deregister self listener.
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:EVENT_MARKET_PURCHASE_VERIF_CLIENT object:notification.object];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:EVENT_MARKET_PURCHASE_VERIF_ERROR object:notification.object];
-    
     NSDictionary* userInfo = notification.userInfo;
-    NSLog(@"LISA - SoomlaVerification got client purchase verified event with result %@", [userInfo objectForKey:DICT_ELEMENT_VERIFIED]);
+    NSNumber* messageId = [userInfo objectForKey:DICT_ELEMENT_TRANSACTION_ID];
 
-    [StoreEventHandling postMarketPurchaseVerification:[userInfo objectForKey:DICT_ELEMENT_VERIFIED] forItem:purchasable andTransaction:transaction forObject:nil];
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-    responseData = [[NSMutableData alloc] init];
-    NSHTTPURLResponse * httpResponse = (NSHTTPURLResponse*)response;
-    responseCode = (int)[httpResponse statusCode];
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
-    [responseData appendData:data];
-}
-
-- (NSCachedURLResponse *)connection:(NSURLConnection *)connection
-                  willCacheResponse:(NSCachedURLResponse*)cachedResponse {
-    return nil;
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    NSString* dataStr = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
-    NSNumber* verifiedNum = nil;
-    if (![dataStr isEqualToString:@""]) {
-        @try {
-            NSDictionary* responseDict = [SoomlaUtils jsonStringToDict:dataStr];
-            verifiedNum = (NSNumber*)[responseDict objectForKey:@"verified"];
-        } @catch (NSException* e) {
-            LogError(TAG, @"There was a problem when verifying when handling response.");
-        }
-    }
-
-    BOOL verified = NO;
-    if (responseCode==200 && verifiedNum) {
-        verified = [verifiedNum boolValue];
-        [StoreEventHandling postMarketPurchaseVerification:verified forItem:purchasable andTransaction:transaction forObject:self];
-    } else {
-        LogError(TAG, @"There was a problem when verifying. Will try again later.");
-        [StoreEventHandling postUnexpectedError:ERR_VERIFICATION_TIMEOUT forObject:self];
+    if (messageId.intValue == transactionId) {
+       LogDebug(TAG, ([NSString stringWithFormat:@"Unity sent a response for transaction id %@. verification = %@", messageId, [userInfo objectForKey:DICT_ELEMENT_VERIFIED]]));
+        [StoreEventHandling postMarketPurchaseVerification:[userInfo objectForKey:DICT_ELEMENT_VERIFIED] forItem:purchasable andTransaction:transaction forObject:self];
+        
+        // Deregister for messages and tell ARC that its okay to release ourselves.
+        [[NSNotificationCenter defaultCenter] removeObserver:self];
+        CFBridgingRelease(selfRef);
     }
 }
-
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    LogError(TAG, @"Failed to connect to verification server. Not doing anything ... the purchasing process will happen again next time the service is initialized.");
-    LogDebug(TAG, [error description]);
-    [StoreEventHandling postUnexpectedError:ERR_VERIFICATION_TIMEOUT forObject:self];
-}
-
-// - (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace {
-//     return [protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust];
-// }
-// 
-// - (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
-//     if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust])
-//             [challenge.sender useCredential:[NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust] forAuthenticationChallenge:challenge];
-//     
-//     [challenge.sender continueWithoutCredentialForAuthenticationChallenge:challenge];
-// }
 
 @end

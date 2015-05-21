@@ -35,12 +35,19 @@
 #define EVENT_GOOD_UPGRADE                  @"VirtualGoodUpgrade"
 #define EVENT_ITEM_PURCHASED                @"ItemPurchased"
 #define EVENT_ITEM_PURCHASE_STARTED         @"ItemPurchaseProcessStarted"
+// A transaction flow finished with canceled state.
 #define EVENT_MARKET_PURCHASE_CANCELLED     @"MarketPurchaseCancelled"
+// A transaction flow finished.
 #define EVENT_MARKET_PURCHASED              @"MarketPurchased"
+// A transaction went through apple and needs Unity to verify the receipt.
 #define EVENT_MARKET_PURCHASE_VERIFY_START  @"MarketPurchaseVerifyStart"
+// The transaction receipt verification completed.
 #define EVENT_MARKET_PURCHASE_VERIF         @"MarketPurchaseVerification"
+// Unity sent back a valid response for validating the receipt.
 #define EVENT_MARKET_PURCHASE_VERIF_CLIENT  @"MarketPurchaseVerificationClientResult"
+// Unity encountered an error validating the receipt.
 #define EVENT_MARKET_PURCHASE_VERIF_ERROR   @"MarketPurchaseVerificationError"
+// a transaction flow started.
 #define EVENT_MARKET_PURCHASE_STARTED       @"MarketPurchaseProcessStarted"
 #define EVENT_RESTORE_TRANSACTIONS_FINISHED @"RestoreTransactionsFinished"
 #define EVENT_RESTORE_TRANSACTIONS_STARTED  @"RestoreTransactionsStarted"
@@ -74,6 +81,7 @@
 #define DICT_ELEMENT_DESCRIPTION       @"description"
 #define DICT_ELEMENT_LOCALE            @"locale"
 #define DICT_ELEMENT_MARKET_ITEMS      @"marketItems"
+#define DICT_ELEMENT_TRANSACTION_ID    @"transactionId"
 
 
 // Error Codes
@@ -81,7 +89,6 @@
 #define ERR_VERIFICATION_TIMEOUT    1
 #define ERR_VERIFICATION_FAIL       2
 #define ERR_PURCHASE_FAIL           3
-#define ERR_CLIENT_VERIFY_FAIL      4
 
 
 /**
@@ -116,11 +123,7 @@
 
 + (void)postMarketPurchase:(PurchasableVirtualItem*)purchasableVirtualItem withReceiptUrl:(NSURL*)receiptUrl andPurchaseToken:(NSString*)token andPayload:(NSString*)payload;
 
-+ (void)postMarketPurchaseVerifyStart:(NSString*)receipt andPurchasable:(PurchasableVirtualItem*)pvi;
-
-+ (void)postMarketPurchaseClientVerifyResult:(BOOL)verified;
-
-+ (void)postMarketPurchaseClientVerifyError;
++ (void)postMarketPurchaseVerifyStart:(NSString*)receipt andTransactionId:(int)transactionId;
 
 + (void)postMarketPurchaseVerification:(BOOL)verified forItem:(PurchasableVirtualItem*)purchasableVirtualItem andTransaction:(SKPaymentTransaction*)transaction forObject:(id)object;
 

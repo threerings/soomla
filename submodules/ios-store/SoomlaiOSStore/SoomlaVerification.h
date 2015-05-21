@@ -24,10 +24,16 @@
     int responseCode;
     PurchasableVirtualItem *purchasable;
     SKPaymentTransaction* transaction;
+    int transactionId;
+    CFTypeRef selfRef;
 }
 
-- (id) initWithTransaction:(SKPaymentTransaction*)t andPurchasable:(PurchasableVirtualItem*)pvi;
+- (id) initWithTransaction:(SKPaymentTransaction*)t andPurchasable:(PurchasableVirtualItem*)pvi andTransactionId:(int)tid;
 
 - (void)verifyData;
+
+- (void)purchaseError:(NSNotification*)notification;
+
+- (void)purchaseVerified:(NSNotification*)notification;
 
 @end
