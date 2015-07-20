@@ -47,6 +47,8 @@
 #define EVENT_MARKET_PURCHASE_VERIF_CLIENT  @"MarketPurchaseVerificationClientResult"
 // Unity encountered an error validating the receipt.
 #define EVENT_MARKET_PURCHASE_VERIF_ERROR   @"MarketPurchaseVerificationError"
+// Unity is requesting to send updated receipt data.
+#define EVENT_MARKET_PURCHASE_RECEIPT_REFRESH   @"MarketPurchaseReceiptRefresh"
 // a transaction flow started.
 #define EVENT_MARKET_PURCHASE_STARTED       @"MarketPurchaseProcessStarted"
 #define EVENT_RESTORE_TRANSACTIONS_FINISHED @"RestoreTransactionsFinished"

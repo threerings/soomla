@@ -21,7 +21,6 @@
 #import "StoreConfig.h"
 #import "FBEncryptorAES.h"
 
-
 @implementation SoomlaVerification
 
 static NSString* TAG = @"SOOMLA SoomlaVerification";
@@ -42,11 +41,63 @@ static NSString* TAG = @"SOOMLA SoomlaVerification";
  * Starts the receipt verification process.
  * Sends an event to the Unity client with the receipt data and listens for a response.
  */
-- (void)verifyData {
+- (void)verifyData
+{
     LogDebug(TAG, ([NSString stringWithFormat:@"verifying purchase for: %@", transaction.payment.productIdentifier]));
     
-    float version = [[[UIDevice currentDevice] systemVersion] floatValue];
+    NSData* data = [self getReceipt];
+    
+    if (data) {
+        
+        // post event for client to listen to and start listening for client response.
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(purchaseVerified:) name:EVENT_MARKET_PURCHASE_VERIF_CLIENT object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(purchaseError:) name:EVENT_MARKET_PURCHASE_VERIF_ERROR object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshReceipt:) name:EVENT_MARKET_PURCHASE_RECEIPT_REFRESH object:nil];
+        
+        NSString* receiptString = [data base64Encoding];
+        [StoreEventHandling postMarketPurchaseVerifyStart:receiptString andTransactionId:transactionId];
+    } else {
+        LogError(TAG, ([NSString stringWithFormat:@"An error occured while trying to get receipt data. Stopping the purchasing process for: %@", transaction.payment.productIdentifier]));
+        [StoreEventHandling postUnexpectedError:ERR_VERIFICATION_TIMEOUT forObject:self];
+    }
+}
 
+/**
+ * Executes when Unity sends back a EVENT_MARKET_PURCHASE_RECEIPT_REFRESH event, requesting updated receipt data.
+ */
+- (void)refreshReceipt:(NSNotification*)notification
+{
+    LogDebug(TAG, @"Start request for refreshing the receipt");
+    SKReceiptRefreshRequest *req = [[SKReceiptRefreshRequest alloc] initWithReceiptProperties:nil];
+    req.delegate = self;
+    [req start];
+}
+
+/**
+ * Executes when apple finishes getting receipt data, send another verification request to Unity.
+ */
+- (void)onRefreshReceiptComplete
+{
+    LogDebug(TAG, ([NSString stringWithFormat:@"re-reading receipt for: %@", transaction.payment.productIdentifier]));
+    
+    NSData* data = [self getReceipt];
+    
+    if (data) {
+        NSString* receiptString = [data base64Encoding];
+        [StoreEventHandling postMarketPurchaseVerifyStart:receiptString andTransactionId:transactionId];
+    } else {
+        LogError(TAG, ([NSString stringWithFormat:@"An error occured while trying to get receipt data. Stopping the purchasing process for: %@", transaction.payment.productIdentifier]));
+        [StoreEventHandling postUnexpectedError:ERR_VERIFICATION_TIMEOUT forObject:self];
+    }
+}
+
+/**
+ * Get the receipt data
+ */
+- (NSData*)getReceipt
+{
+    float version = [[[UIDevice currentDevice] systemVersion] floatValue];
+    
     NSData* data = nil;
     if (version < 7) {
         data = transaction.transactionReceipt;
@@ -56,19 +107,7 @@ static NSString* TAG = @"SOOMLA SoomlaVerification";
             data = [NSData dataWithContentsOfURL:receiptUrl];
         }
     }
-    
-    if (data) {
-        
-        // post event for client to listen to and start listening for client response.
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(purchaseVerified:) name:EVENT_MARKET_PURCHASE_VERIF_CLIENT object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(purchaseError:) name:EVENT_MARKET_PURCHASE_VERIF_ERROR object:nil];
-        
-        NSString* receiptString = [data base64Encoding];
-        [StoreEventHandling postMarketPurchaseVerifyStart:receiptString andTransactionId:transactionId];
-    } else {
-        LogError(TAG, ([NSString stringWithFormat:@"An error occured while trying to get receipt data. Stopping the purchasing process for: %@", transaction.payment.productIdentifier]));
-        [StoreEventHandling postUnexpectedError:ERR_VERIFICATION_TIMEOUT forObject:self];
-    }
+    return data;
 }
 
 /**
@@ -108,6 +147,18 @@ static NSString* TAG = @"SOOMLA SoomlaVerification";
         [[NSNotificationCenter defaultCenter] removeObserver:self];
         CFBridgingRelease(selfRef);
     }
+}
+
+#pragma mark SKRequestDelegate methods
+
+- (void)requestDidFinish:(SKRequest *)request {
+    LogDebug(TAG, @"The refresh request for a receipt completed.");
+    [self onRefreshReceiptComplete];
+}
+
+- (void)request:(SKRequest *)request didFailWithError:(NSError *)error {
+    LogDebug(TAG, ([NSString stringWithFormat:@"Error trying to request receipt: %@", error]));
+    [StoreEventHandling postUnexpectedError:ERR_VERIFICATION_FAIL forObject:self];
 }
 
 @end

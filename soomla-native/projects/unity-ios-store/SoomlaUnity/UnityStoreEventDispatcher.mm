@@ -100,6 +100,11 @@ extern "C"{
         NSDictionary *userInfo = @{DICT_ELEMENT_TRANSACTION_ID: [NSNumber numberWithInt:transactionId]};
         [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_MARKET_PURCHASE_VERIF_ERROR object:instance userInfo:userInfo];
     }
+    
+    void eventDispatcher_RefreshTransactionReceipt(int transactionId) {
+        NSDictionary *userInfo = @{DICT_ELEMENT_TRANSACTION_ID: [NSNumber numberWithInt:transactionId]};
+        [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_MARKET_PURCHASE_RECEIPT_REFRESH object:instance userInfo:userInfo];
+    }
 }
 
 @implementation UnityStoreEventDispatcher
@@ -258,7 +263,11 @@ extern "C"{
         UnitySendMessage(reciever, "onMarketItemsRefreshFailed", [jsonStr UTF8String]);
     }
     else if ([notification.name isEqualToString:EVENT_UNEXPECTED_ERROR_IN_STORE]) {
-        UnitySendMessage(reciever, "onUnexpectedErrorInStore", "");
+        NSDictionary* userInfo = [notification userInfo];
+        NSString* jsonStr = [SoomlaUtils dictToJsonString:@{
+                                                            @"errorMessage": ([userInfo objectForKey:DICT_ELEMENT_ERROR_CODE] ?: @"")
+                                                            }];
+        UnitySendMessage(reciever, "onUnexpectedErrorInStore", [jsonStr UTF8String]);
     }
     else if ([notification.name isEqualToString:EVENT_SOOMLASTORE_INIT]) {
         UnitySendMessage(reciever, "onSoomlaStoreInitialized", "");
