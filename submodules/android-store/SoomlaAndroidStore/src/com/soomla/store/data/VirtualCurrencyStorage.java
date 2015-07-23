@@ -18,8 +18,6 @@ package com.soomla.store.data;
 
 
 import com.soomla.BusProvider;
-import com.soomla.store.domain.VirtualItem;
-import com.soomla.store.domain.virtualCurrencies.VirtualCurrency;
 import com.soomla.store.events.CurrencyBalanceChangedEvent;
 
 /**

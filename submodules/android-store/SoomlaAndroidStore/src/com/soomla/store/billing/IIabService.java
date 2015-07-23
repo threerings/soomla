@@ -16,7 +16,10 @@
 
 package com.soomla.store.billing;
 
+import com.soomla.store.domain.PurchasableVirtualItem;
+
 import java.util.List;
+import java.util.Map;
 
 /**
  * This interface defines the functionality that needs to be implemented in order to create an
@@ -109,5 +112,13 @@ public interface IIabService {
      *                     completes.
      */
     public void stopIabServiceInBg(IabCallbacks.IabInitListener initListener);
+
+    /**
+     * Parameters that configures receipt validation for purchases.
+     * Setting these params will enable purchase verification.
+     *
+     * @param verifyPurchases the parameters for receipt validation.
+     */
+    void configVerifyPurchases(Map<String, Object> verifyPurchases);
 
 }

@@ -24,7 +24,6 @@ package com.soomla.store.data;
 
 import com.soomla.SoomlaUtils;
 import com.soomla.data.KeyValueStorage;
-import com.soomla.store.domain.VirtualItem;
 
 /**
  * This class is an abstract definition of a Virtual Item Storage.

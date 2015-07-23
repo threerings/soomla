@@ -219,14 +219,12 @@ public class StoreEventHandler {
         }
         try {
             JSONObject eventJSON = new JSONObject();
-            eventJSON.put("itemId", playPurchaseEvent.getPurchasableVirtualItem().getItemId());
-            eventJSON.put("payload", playPurchaseEvent.getPayload());
+            eventJSON.put("itemId", playPurchaseEvent.PurchasableVirtualItem.getItemId());
+            eventJSON.put("payload", playPurchaseEvent.Payload);
             JSONObject extraJSON = new JSONObject();
-            extraJSON.put("purchaseToken", playPurchaseEvent.getToken());
-            extraJSON.put("orderId", playPurchaseEvent.getOrderId());
-            extraJSON.put("originalJson", playPurchaseEvent.getOriginalJson());
-            extraJSON.put("signature", playPurchaseEvent.getSignature());
-            extraJSON.put("userId", playPurchaseEvent.getUserId());
+            for(String key : playPurchaseEvent.ExtraInfo.keySet()) {
+                extraJSON.put(key, playPurchaseEvent.ExtraInfo.get(key));
+            }
             eventJSON.put("extra", extraJSON);
 
             UnityPlayer.UnitySendMessage("StoreEvents", "onMarketPurchase", eventJSON.toString());
@@ -352,8 +350,15 @@ public class StoreEventHandler {
         if (unexpectedStoreErrorEvent.Sender == this) {
             return;
         }
-        String msg = unexpectedStoreErrorEvent.getMessage();
-        UnityPlayer.UnitySendMessage("StoreEvents", "onUnexpectedErrorInStore", (msg == null ? "" : msg));
+
+        try {
+            JSONObject eventJSON = new JSONObject();
+            eventJSON.put("errorCode", unexpectedStoreErrorEvent.getErrorCode().ordinal());
+
+            UnityPlayer.UnitySendMessage("StoreEvents", "onUnexpectedStoreError", eventJSON.toString());
+        } catch (JSONException e) {
+            SoomlaUtils.LogError(TAG, "This is BAD! couldn't create JSON for onMarketItemsRefreshFailed event.");
+        }
     }
 
 
@@ -365,7 +370,13 @@ public class StoreEventHandler {
     }
 
     public void pushEventUnexpectedStoreError(String message) {
-        BusProvider.getInstance().post(new UnexpectedStoreErrorEvent(message, this));
+        try {
+            JSONObject eventJSON = new JSONObject(message);
+
+            BusProvider.getInstance().post(new UnexpectedStoreErrorEvent(UnexpectedStoreErrorEvent.ErrorCode.values()[eventJSON.getInt("errorCode")], this));
+        } catch (JSONException e) {
+            SoomlaUtils.LogError(TAG, "(when pushing event) This is BAD! couldn't create JSON for UnexpectedStoreErrorEvent event.");
+        }
     }
 
     public void pushEventCurrencyBalanceChanged(String message) {

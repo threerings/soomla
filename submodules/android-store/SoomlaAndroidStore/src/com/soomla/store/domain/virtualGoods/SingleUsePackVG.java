@@ -17,9 +17,11 @@
 package com.soomla.store.domain.virtualGoods;
 
 import com.soomla.SoomlaUtils;
-import com.soomla.store.data.StoreJSONConsts;
 import com.soomla.store.data.StorageManager;
 import com.soomla.store.data.StoreInfo;
+import com.soomla.store.data.StoreJSONConsts;
+import com.soomla.store.domain.PurchasableVirtualItem;
+import com.soomla.store.domain.VirtualItem;
 import com.soomla.store.exceptions.VirtualItemNotFoundException;
 import com.soomla.store.purchaseTypes.PurchaseType;
 import org.json.JSONException;
@@ -43,9 +45,9 @@ import java.util.Iterator;
  * you will need to define the item in the market (Google Play, Amazon App Store, etc...).
  *
  * Inheritance: SingleUsePackVG >
- * {@link com.soomla.store.domain.virtualGoods.VirtualGood} >
- * {@link com.soomla.store.domain.PurchasableVirtualItem} >
- * {@link com.soomla.store.domain.VirtualItem}
+ * {@link VirtualGood} >
+ * {@link PurchasableVirtualItem} >
+ * {@link VirtualItem}
  */
 public class SingleUsePackVG extends VirtualGood {
 
@@ -111,7 +113,7 @@ public class SingleUsePackVG extends VirtualGood {
     public int give(int amount, boolean notify) {
         SingleUseVG good = null;
         try {
-            good = (SingleUseVG)StoreInfo.getVirtualItem(mGoodItemId);
+            good = (SingleUseVG) StoreInfo.getVirtualItem(mGoodItemId);
         } catch (VirtualItemNotFoundException e) {
             SoomlaUtils.LogError(TAG, "SingleUseVG with itemId: " + mGoodItemId + " doesn't exist! Can't give this pack.");
             return 0;

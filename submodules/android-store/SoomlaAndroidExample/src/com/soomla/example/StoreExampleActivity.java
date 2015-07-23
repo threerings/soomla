@@ -32,15 +32,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.soomla.Soomla;
 import com.soomla.SoomlaApp;
 import com.soomla.SoomlaConfig;
 import com.soomla.SoomlaUtils;
-import com.soomla.store.*;
+import com.soomla.store.IStoreAssets;
+import com.soomla.store.SoomlaStore;
+import com.soomla.store.StoreInventory;
 import com.soomla.store.billing.google.GooglePlayIabService;
 import com.soomla.store.domain.virtualCurrencies.VirtualCurrency;
 import com.soomla.store.exceptions.VirtualItemNotFoundException;
+
+import java.util.HashMap;
 
 /**
  * In this class <code>SoomlaStore</code> and <code>EventHandler</code> are initialized before
@@ -98,10 +101,16 @@ public class StoreExampleActivity extends Activity {
         mEventHandler = new ExampleEventHandler(mHandler, this);
 
         Soomla.initialize("[CUSTOM SECRET HERE]");
+        SoomlaConfig.logDebug = true;
         SoomlaStore.getInstance().initialize(storeAssets);
-        GooglePlayIabService.getInstance().setPublicKey("[YOUR PUBLIC KEY FROM THE MARKET]");
         GooglePlayIabService.AllowAndroidTestPurchases = true;
-
+        GooglePlayIabService iabService = GooglePlayIabService.getInstance();
+        iabService.setPublicKey("xxx");
+        iabService.configVerifyPurchases(new HashMap<String, Object>() {{
+            put("clientId", "xxx.apps.googleusercontent.com");
+            put("clientSecret", "xxx");
+            put("refreshToken", "1/xxx");
+        }});
 
         //FOR TESTING PURPOSES ONLY: Check if it's a first run, if so add 10000 currencies.
         SharedPreferences prefs =

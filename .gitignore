@@ -6,3 +6,5 @@ submodules/ios-store/SoomlaiOSStore.xcodeproj
 submodules/ios-store/out
 submodules/ios-store/submodules/soomla-ios-core/out
 submodules/ios-store/build
+submodules/soomla-unity3d-core/Soomla/Library
+submodules/soomla-unity3d-core/Soomla/ProjectSettings

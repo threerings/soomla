@@ -18,9 +18,11 @@ package com.soomla.store.domain.virtualGoods;
 
 import android.text.TextUtils;
 import com.soomla.SoomlaUtils;
-import com.soomla.store.data.StoreJSONConsts;
 import com.soomla.store.data.StorageManager;
 import com.soomla.store.data.StoreInfo;
+import com.soomla.store.data.StoreJSONConsts;
+import com.soomla.store.domain.PurchasableVirtualItem;
+import com.soomla.store.domain.VirtualItem;
 import com.soomla.store.exceptions.VirtualItemNotFoundException;
 import com.soomla.store.purchaseTypes.PurchaseType;
 import org.json.JSONException;
@@ -51,9 +53,9 @@ import java.util.Iterator;
  * you will need to define the item in the market (Google Play, Amazon App Store, etc...).
  *
  * Inheritance: UpgradeVG >
- * {@link com.soomla.store.domain.virtualGoods.VirtualGood} >
- * {@link com.soomla.store.domain.PurchasableVirtualItem} >
- * {@link com.soomla.store.domain.VirtualItem}
+ * {@link VirtualGood} >
+ * {@link PurchasableVirtualItem} >
+ * {@link VirtualItem}
  */
 public class UpgradeVG extends LifetimeVG {
 
@@ -137,7 +139,7 @@ public class UpgradeVG extends LifetimeVG {
 
         VirtualGood good = null;
         try {
-            good = (VirtualGood)StoreInfo.getVirtualItem(mGoodItemId);
+            good = (VirtualGood) StoreInfo.getVirtualItem(mGoodItemId);
         } catch (VirtualItemNotFoundException e) {
             SoomlaUtils.LogError(TAG, "VirtualGood with itemId: " + mGoodItemId +
                     " doesn't exist! Can't upgrade.");

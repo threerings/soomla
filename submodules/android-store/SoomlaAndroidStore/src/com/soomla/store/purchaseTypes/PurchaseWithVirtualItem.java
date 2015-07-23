@@ -51,7 +51,7 @@ public class PurchaseWithVirtualItem extends PurchaseType {
     /**
      * Buys the virtual item with other virtual items.
      *
-     * @throws com.soomla.store.exceptions.InsufficientFundsException
+     * @throws InsufficientFundsException
      */
     @Override
     public void buy(String payload) throws InsufficientFundsException{

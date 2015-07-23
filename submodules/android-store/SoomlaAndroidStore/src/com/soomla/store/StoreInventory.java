@@ -17,14 +17,12 @@
 package com.soomla.store;
 
 import android.text.TextUtils;
-
 import com.soomla.SoomlaUtils;
 import com.soomla.data.KeyValueStorage;
 import com.soomla.store.data.StorageManager;
 import com.soomla.store.data.StoreInfo;
 import com.soomla.store.data.VirtualCurrencyStorage;
 import com.soomla.store.data.VirtualGoodsStorage;
-import com.soomla.store.data.VirtualItemStorage;
 import com.soomla.store.domain.PurchasableVirtualItem;
 import com.soomla.store.domain.VirtualItem;
 import com.soomla.store.domain.virtualCurrencies.VirtualCurrency;
@@ -35,6 +33,7 @@ import com.soomla.store.exceptions.InsufficientFundsException;
 import com.soomla.store.exceptions.NotEnoughGoodsException;
 import com.soomla.store.exceptions.VirtualItemNotFoundException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -112,7 +111,7 @@ public class StoreInventory {
     /**
      * Equips the virtual good with the given <code>goodItemId</code>.
      * Equipping means that the user decides to currently use a specific virtual good.
-     * For more details and examples see {@link com.soomla.store.domain.virtualGoods.EquippableVG}.
+     * For more details and examples see {@link EquippableVG}.
      *
      * @param goodItemId id of the virtual good to be equipped
      * @throws VirtualItemNotFoundException
@@ -134,7 +133,7 @@ public class StoreInventory {
     /**
      * Unequips the virtual good with the given <code>goodItemId</code>. Unequipping means that the
      * user decides to stop using the virtual good he/she is currently using.
-     * For more details and examples see {@link com.soomla.store.domain.virtualGoods.EquippableVG}.
+     * For more details and examples see {@link EquippableVG}.
      *
      * @param goodItemId id of the virtual good to be unequipped
      * @throws VirtualItemNotFoundException
@@ -304,16 +303,24 @@ public class StoreInventory {
     }
 
     public static HashMap<String, HashMap<String, Object>> allItemsBalances() {
+        SoomlaUtils.LogDebug(TAG, "Fetching all items balances");
+
         HashMap<String, HashMap<String, Object>> itemsDict = new HashMap<String, HashMap<String, Object>>();
 
-        for(VirtualCurrency currency : StoreInfo.getCurrencies()) {
+        SoomlaUtils.LogDebug(TAG, "Fetching balances for Currencies");
+        // we're cloning the list to avoid situations where someone else tries to manipulate list while we iterate
+        List<VirtualCurrency> currencies = new ArrayList<VirtualCurrency>(StoreInfo.getCurrencies());
+        for(VirtualCurrency currency : currencies) {
             HashMap<String, Object> updatedValues = new HashMap<String, Object>();
             updatedValues.put("balance", StorageManager.getVirtualCurrencyStorage().getBalance(currency.getItemId()));
 
             itemsDict.put(currency.getItemId(), updatedValues);
         }
 
-        for(VirtualGood good : StoreInfo.getGoods()) {
+        SoomlaUtils.LogDebug(TAG, "Fetching balances for Goods");
+        // we're cloning the list to avoid situations where someone else tries to manipulate list while we iterate
+        List<VirtualGood> goods = new ArrayList<VirtualGood>(StoreInfo.getGoods());
+        for(VirtualGood good : goods) {
             HashMap<String, Object> updatedValues = new HashMap<String, Object>();
 
             updatedValues.put("balance", StorageManager.getVirtualGoodsStorage().getBalance(good.getItemId()));

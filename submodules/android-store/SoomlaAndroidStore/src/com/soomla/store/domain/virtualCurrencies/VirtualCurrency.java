@@ -17,6 +17,7 @@
 package com.soomla.store.domain.virtualCurrencies;
 
 import com.soomla.store.data.StorageManager;
+import com.soomla.store.data.StoreInfo;
 import com.soomla.store.domain.VirtualItem;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,7 +25,7 @@ import org.json.JSONObject;
 /**
  * This is a representation of a game's virtual currency.
  * Each game can have multiple instances of a virtual currency, all kept in
- * {@link com.soomla.store.data.StoreInfo}
+ * {@link StoreInfo}
  *
  * Real Game Examples: 'Coin', 'Gem', 'Muffin'
  *

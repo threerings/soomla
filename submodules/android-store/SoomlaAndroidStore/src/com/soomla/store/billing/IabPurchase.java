@@ -16,6 +16,8 @@
 
 package com.soomla.store.billing;
 
+import com.soomla.store.events.UnexpectedStoreErrorEvent;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,6 +36,8 @@ public class IabPurchase {
     private String mOriginalJson;
     private String mSignature;
     private String mUserId; // NOTE: UserId is only used on Amazon Store.
+    private boolean serverVerified = true;
+    private UnexpectedStoreErrorEvent.ErrorCode verificationErrorCode;
 
     public IabPurchase(String itemType, String sku, String purchaseToken, String orderId, int purchaseState) {
         this(itemType, sku, purchaseToken, orderId, purchaseState, null);
@@ -106,8 +110,24 @@ public class IabPurchase {
         return mUserId;
     }
 
+    public boolean isServerVerified() {
+        return serverVerified;
+    }
+
+    public void setServerVerified(boolean serverVerified) {
+        this.serverVerified = serverVerified;
+    }
+
     public void setDeveloperPayload(String developerPayload) {
         mDeveloperPayload = developerPayload;
+    }
+
+    public UnexpectedStoreErrorEvent.ErrorCode getVerificationErrorCode() {
+        return verificationErrorCode;
+    }
+
+    public void setVerificationErrorCode(UnexpectedStoreErrorEvent.ErrorCode verificationErrorCode) {
+        this.verificationErrorCode = verificationErrorCode;
     }
 
     @Override

@@ -32,7 +32,7 @@ public abstract class PurchaseType {
      * @param payload a string you want to be assigned to the purchase. This string
      *   is saved in a static variable and will be given bacl to you when the
      *   purchase is completed.
-     * @throws com.soomla.store.exceptions.InsufficientFundsException
+     * @throws InsufficientFundsException
      */
     public abstract void buy(String payload) throws InsufficientFundsException;
 

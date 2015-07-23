@@ -17,14 +17,10 @@
 package com.soomla.store.data;
 
 import android.text.TextUtils;
-
 import com.soomla.BusProvider;
 import com.soomla.SoomlaUtils;
 import com.soomla.data.KeyValueStorage;
-import com.soomla.store.domain.VirtualItem;
-import com.soomla.store.domain.virtualGoods.EquippableVG;
 import com.soomla.store.domain.virtualGoods.UpgradeVG;
-import com.soomla.store.domain.virtualGoods.VirtualGood;
 import com.soomla.store.events.GoodBalanceChangedEvent;
 import com.soomla.store.events.GoodEquippedEvent;
 import com.soomla.store.events.GoodUnEquippedEvent;

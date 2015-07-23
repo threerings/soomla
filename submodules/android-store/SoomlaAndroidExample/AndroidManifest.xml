@@ -8,6 +8,7 @@
 
 
     <!-- uncomment when you want google play IAB -->
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.android.vending.BILLING" />
 
 

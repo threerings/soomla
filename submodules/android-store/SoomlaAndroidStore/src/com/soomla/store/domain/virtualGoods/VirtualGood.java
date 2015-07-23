@@ -18,6 +18,7 @@ package com.soomla.store.domain.virtualGoods;
 
 import com.soomla.store.data.StorageManager;
 import com.soomla.store.domain.PurchasableVirtualItem;
+import com.soomla.store.domain.VirtualItem;
 import com.soomla.store.purchaseTypes.PurchaseType;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,8 +30,8 @@ import org.json.JSONObject;
  * of virtual goods.
  *
  * Inheritance: VirtualGood >
- * {@link com.soomla.store.domain.PurchasableVirtualItem} >
- * {@link com.soomla.store.domain.VirtualItem}
+ * {@link PurchasableVirtualItem} >
+ * {@link VirtualItem}
  */
 public abstract class VirtualGood extends PurchasableVirtualItem {
 

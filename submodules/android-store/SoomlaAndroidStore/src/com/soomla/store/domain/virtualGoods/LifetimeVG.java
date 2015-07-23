@@ -18,6 +18,8 @@ package com.soomla.store.domain.virtualGoods;
 
 import com.soomla.SoomlaUtils;
 import com.soomla.store.data.StorageManager;
+import com.soomla.store.domain.PurchasableVirtualItem;
+import com.soomla.store.domain.VirtualItem;
 import com.soomla.store.purchaseTypes.PurchaseType;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,9 +39,9 @@ import org.json.JSONObject;
  * you will need to define the item in the market (Google Play, Amazon App Store, etc...).
  *
  * Inheritance: LifetimeVG >
- * {@link com.soomla.store.domain.virtualGoods.VirtualGood} >
- * {@link com.soomla.store.domain.PurchasableVirtualItem} >
- * {@link com.soomla.store.domain.VirtualItem}
+ * {@link VirtualGood} >
+ * {@link PurchasableVirtualItem} >
+ * {@link VirtualItem}
  */
     public class LifetimeVG extends VirtualGood{
 

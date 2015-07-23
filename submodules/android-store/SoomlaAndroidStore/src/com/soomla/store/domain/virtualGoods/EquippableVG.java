@@ -18,10 +18,12 @@ package com.soomla.store.domain.virtualGoods;
 
 
 import com.soomla.SoomlaUtils;
-import com.soomla.store.data.StoreJSONConsts;
 import com.soomla.store.data.StorageManager;
 import com.soomla.store.data.StoreInfo;
+import com.soomla.store.data.StoreJSONConsts;
+import com.soomla.store.domain.PurchasableVirtualItem;
 import com.soomla.store.domain.VirtualCategory;
+import com.soomla.store.domain.VirtualItem;
 import com.soomla.store.exceptions.NotEnoughGoodsException;
 import com.soomla.store.exceptions.VirtualItemNotFoundException;
 import com.soomla.store.purchaseTypes.PurchaseType;
@@ -68,10 +70,10 @@ import java.util.Iterator;
  * you will need to define it in the market (Google Play, Amazon App Store, etc...).
  *
  * Inheritance: EquippableVG >
- * {@link com.soomla.store.domain.virtualGoods.LifetimeVG} >
- * {@link com.soomla.store.domain.virtualGoods.VirtualGood} >
- * {@link com.soomla.store.domain.PurchasableVirtualItem} >
- * {@link com.soomla.store.domain.VirtualItem}
+ * {@link LifetimeVG} >
+ * {@link VirtualGood} >
+ * {@link PurchasableVirtualItem} >
+ * {@link VirtualItem}
  */
 public class EquippableVG extends LifetimeVG{
 

@@ -20,9 +20,26 @@ package com.soomla.example;
 import android.os.Handler;
 import android.widget.Toast;
 import com.soomla.BusProvider;
-import com.soomla.SoomlaConfig;
 import com.soomla.SoomlaApp;
-import com.soomla.store.events.*;
+import com.soomla.SoomlaConfig;
+import com.soomla.store.events.BillingNotSupportedEvent;
+import com.soomla.store.events.BillingSupportedEvent;
+import com.soomla.store.events.CurrencyBalanceChangedEvent;
+import com.soomla.store.events.GoodBalanceChangedEvent;
+import com.soomla.store.events.GoodEquippedEvent;
+import com.soomla.store.events.GoodUnEquippedEvent;
+import com.soomla.store.events.IabServiceStartedEvent;
+import com.soomla.store.events.IabServiceStoppedEvent;
+import com.soomla.store.events.ItemPurchaseStartedEvent;
+import com.soomla.store.events.ItemPurchasedEvent;
+import com.soomla.store.events.MarketPurchaseCancelledEvent;
+import com.soomla.store.events.MarketPurchaseEvent;
+import com.soomla.store.events.MarketPurchaseStartedEvent;
+import com.soomla.store.events.MarketRefundEvent;
+import com.soomla.store.events.RestoreTransactionsFinishedEvent;
+import com.soomla.store.events.RestoreTransactionsStartedEvent;
+import com.soomla.store.events.SoomlaStoreInitializedEvent;
+import com.soomla.store.events.UnexpectedStoreErrorEvent;
 import com.squareup.otto.Subscribe;
 
 /**
@@ -56,7 +73,7 @@ public class ExampleEventHandler {
      */
     @Subscribe
     public void onMarketPurchase(MarketPurchaseEvent marketPurchaseEvent) {
-        showToastIfDebug(marketPurchaseEvent.getPurchasableVirtualItem().getName()
+        showToastIfDebug(marketPurchaseEvent.PurchasableVirtualItem.getName()
                 + " was just purchased");
     }
 
@@ -187,7 +204,7 @@ public class ExampleEventHandler {
      */
     @Subscribe
     public void onUnexpectedErrorInStore(UnexpectedStoreErrorEvent unexpectedStoreErrorEvent) {
-        showToastIfDebug("Unexpected error occurred !");
+        showToastIfDebug("Unexpected error occurred!");
     }
 
     /**
@@ -295,7 +312,7 @@ public class ExampleEventHandler {
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    Toast toast = Toast.makeText(SoomlaApp.getAppContext(), msg, 2000);
+                    Toast toast = Toast.makeText(SoomlaApp.getAppContext(), msg, Toast.LENGTH_LONG);
                     toast.show();
                 }
             });

@@ -25,7 +25,7 @@ SOOMLA modules internally use these features, though we encourage you to use the
 
 ####Pre baked jar:
 
-[soomla-android-core v1.0.3](http://library.soom.la/fetch/android-core/1.0.3?cf=github)
+[soomla-android-core v1.0.5](http://library.soom.la/fetch/android-core/1.0.5?cf=github)
 
 Our way of saying "Thanks !"
 ---

@@ -17,8 +17,8 @@
 package com.soomla.store.purchaseTypes;
 
 import com.soomla.BusProvider;
-import com.soomla.store.SoomlaStore;
 import com.soomla.SoomlaUtils;
+import com.soomla.store.SoomlaStore;
 import com.soomla.store.domain.MarketItem;
 import com.soomla.store.events.ItemPurchaseStartedEvent;
 import com.soomla.store.exceptions.InsufficientFundsException;
@@ -55,7 +55,7 @@ public class PurchaseWithMarket extends PurchaseType {
     /**
      * Buys the virtual item with real money (from the Market).
      *
-     * @throws com.soomla.store.exceptions.InsufficientFundsException
+     * @throws InsufficientFundsException
      */
     @Override
     public void buy(String payload) throws InsufficientFundsException {

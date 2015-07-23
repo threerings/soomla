@@ -22,41 +22,45 @@ import com.soomla.events.SoomlaEvent;
  * This event is fired when an unexpected/unrecognized error occurs in store.
  */
 public class UnexpectedStoreErrorEvent extends SoomlaEvent {
+    public enum ErrorCode {
+        GENERAL,
+        VERIFICATION_TIMEOUT,
+        VERIFICATION_FAIL,
+        PURCHASE_FAIL
+    }
 
     /**
      * Constructor
      *
-     * @param message
+     * @param errorCode
      */
-	public UnexpectedStoreErrorEvent(String message)
+	public UnexpectedStoreErrorEvent(ErrorCode errorCode)
 	{
-        this(message, null);
-	}
+        this(errorCode, null);
+    }
 
     /**
      * Constructor
      */
 	public UnexpectedStoreErrorEvent()
 	{
-		this("Unknown error", null);
+		this(ErrorCode.GENERAL, null);
 	}
 
-    public UnexpectedStoreErrorEvent(String message, Object sender)
+    public UnexpectedStoreErrorEvent(ErrorCode errorCode, Object sender)
     {
         super(sender);
-        mMessage = message;
+        this.errorCode = errorCode;
     }
 
 
     /** Setters and Getters */
 
-	public String getMessage()
-	{
-		return mMessage;
-	}
-
+    public ErrorCode getErrorCode() {
+        return errorCode;
+    }
 
     /** Private Members */
 
-    private String mMessage;
+    private final ErrorCode errorCode;
 }

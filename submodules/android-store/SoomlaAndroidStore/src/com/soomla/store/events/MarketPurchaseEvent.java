@@ -19,6 +19,8 @@ package com.soomla.store.events;
 import com.soomla.events.SoomlaEvent;
 import com.soomla.store.domain.PurchasableVirtualItem;
 
+import java.util.HashMap;
+
 /**
  * This event is fired when a Market purchase has occurred.
  */
@@ -29,74 +31,26 @@ public class MarketPurchaseEvent extends SoomlaEvent {
      *
      * @param purchasableVirtualItem the item that was purchased
      * @param payload the amount paid by the user (with real money!)
-     * @param token token associated with in-app billing purchase
+     * @param extraInfo will contain extra information associated with the current purchase from the specific market
      */
     public MarketPurchaseEvent(PurchasableVirtualItem purchasableVirtualItem, String payload,
-                               String token, String orderId) {
-        this(purchasableVirtualItem, payload, token, orderId, null, null, null, null);
+                               HashMap<String, String> extraInfo) {
+        this(purchasableVirtualItem, payload, extraInfo, null);
     }
 
     public MarketPurchaseEvent(PurchasableVirtualItem purchasableVirtualItem, String payload,
-                               String token, String orderId, Object sender) {
-        this(purchasableVirtualItem, payload, token, orderId, null, null, null, sender);
-    }
-
-    public MarketPurchaseEvent(PurchasableVirtualItem purchasableVirtualItem, String payload,
-                               String token, String orderId, String originalJson, String signature, String userId, Object sender) {
+                               HashMap<String, String> extraInfo, Object sender) {
         super(sender);
-        mPurchasableVirtualItem = purchasableVirtualItem;
-        mPayload = payload;
-        mToken = token;
-        mOrderId = orderId;
-        mOriginalJson = originalJson;
-        mSignature = signature;
-        mUserId = userId;
-    }
-
-
-    /** Setters and Getters */
-
-    public PurchasableVirtualItem getPurchasableVirtualItem() {
-        return mPurchasableVirtualItem;
-    }
-
-    public String getPayload() {
-        return mPayload;
-    }
-
-    public String getToken() {
-        return mToken;
-    }
-
-    public String getOrderId() {
-        return mOrderId;
-    }
-
-    public String getOriginalJson() {
-        return mOriginalJson;
-    }
-
-    public String getSignature() {
-        return mSignature;
-    }
-
-    public String getUserId() {
-        return mUserId;
+        PurchasableVirtualItem = purchasableVirtualItem;
+        Payload = payload;
+        ExtraInfo = extraInfo;
     }
 
     /** Private Members */
 
-    private PurchasableVirtualItem mPurchasableVirtualItem;
+    public final PurchasableVirtualItem PurchasableVirtualItem;
 
-    private String mPayload;
+    public final String Payload;
 
-    private String mToken;
-
-    private String mOrderId;
-
-    private String mOriginalJson;
-
-    private String mSignature;
-
-    private String mUserId;
+    public final HashMap<String, String> ExtraInfo;
 }

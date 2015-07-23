@@ -17,10 +17,11 @@
 package com.soomla.store.domain.virtualCurrencies;
 
 import com.soomla.SoomlaUtils;
-import com.soomla.store.data.StoreJSONConsts;
 import com.soomla.store.data.StorageManager;
 import com.soomla.store.data.StoreInfo;
+import com.soomla.store.data.StoreJSONConsts;
 import com.soomla.store.domain.PurchasableVirtualItem;
+import com.soomla.store.domain.VirtualItem;
 import com.soomla.store.exceptions.VirtualItemNotFoundException;
 import com.soomla.store.purchaseTypes.PurchaseType;
 import org.json.JSONException;
@@ -30,7 +31,7 @@ import java.util.Iterator;
 
 /**
  * Every game has its virtual currencies. This class represents a pack of a specific
- * {@link com.soomla.store.domain.virtualCurrencies.VirtualCurrency}.
+ * {@link VirtualCurrency}.
  *
  * Real Game Example: If the virtual currency in your game is a 'Coin', you will sell packs of
  * 'Coins' such as "10 Coins Set" or "Super Saver Pack".
@@ -39,8 +40,8 @@ import java.util.Iterator;
  * define the item in the market (Google Play, Amazon App Store, etc...).
  *
  * Inheritance: VirtualCurrencyPack >
- * {@link com.soomla.store.domain.PurchasableVirtualItem} >
- * {@link com.soomla.store.domain.VirtualItem}
+ * {@link PurchasableVirtualItem} >
+ * {@link VirtualItem}
  */
 public class VirtualCurrencyPack extends PurchasableVirtualItem {
 
@@ -108,7 +109,7 @@ public class VirtualCurrencyPack extends PurchasableVirtualItem {
     public int give(int amount, boolean notify) {
         VirtualCurrency currency = null;
         try {
-            currency = (VirtualCurrency)StoreInfo.getVirtualItem(mCurrencyItemId);
+            currency = (VirtualCurrency) StoreInfo.getVirtualItem(mCurrencyItemId);
         } catch (VirtualItemNotFoundException e) {
             SoomlaUtils.LogError(TAG, "VirtualCurrency with itemId: " + mCurrencyItemId
                     + " doesn't exist! Can't give this pack.");

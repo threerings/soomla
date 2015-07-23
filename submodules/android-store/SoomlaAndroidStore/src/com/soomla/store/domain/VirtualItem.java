@@ -17,10 +17,7 @@
 package com.soomla.store.domain;
 
 import com.soomla.SoomlaEntity;
-import com.soomla.SoomlaUtils;
 import com.soomla.store.data.StoreInfo;
-import com.soomla.store.data.StoreJSONConsts;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 

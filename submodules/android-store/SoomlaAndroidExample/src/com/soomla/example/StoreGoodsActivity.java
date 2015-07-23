@@ -29,9 +29,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.soomla.BusProvider;
-import com.soomla.Soomla;
 import com.soomla.SoomlaUtils;
 import com.soomla.store.SoomlaStore;
 import com.soomla.store.data.StorageManager;
@@ -41,6 +39,7 @@ import com.soomla.store.events.CurrencyBalanceChangedEvent;
 import com.soomla.store.events.GoodBalanceChangedEvent;
 import com.soomla.store.exceptions.InsufficientFundsException;
 import com.soomla.store.exceptions.VirtualItemNotFoundException;
+import com.soomla.store.purchaseTypes.PurchaseType;
 import com.soomla.store.purchaseTypes.PurchaseWithMarket;
 import com.soomla.store.purchaseTypes.PurchaseWithVirtualItem;
 import com.squareup.otto.Subscribe;
@@ -110,9 +109,11 @@ public class StoreGoodsActivity extends Activity {
             }
             ListView list = (ListView) findViewById(R.id.list);
             TextView info = (TextView)list.getChildAt(id).findViewById(R.id.item_info);
-            PurchaseWithVirtualItem pwvi = (PurchaseWithVirtualItem) good.getPurchaseType();
-            info.setText("price: " + pwvi.getAmount() +
-                    " balance: " + goodBalanceChangedEvent.getBalance());
+            PurchaseType purchaseType = good.getPurchaseType();
+            if (purchaseType instanceof PurchaseWithVirtualItem) {
+                info.setText("price: " + ((PurchaseWithVirtualItem)purchaseType).getAmount() +
+                        " balance: " + goodBalanceChangedEvent.getBalance());
+            }
         } catch (VirtualItemNotFoundException e) {
             SoomlaUtils.LogDebug("StoreGoodsActivity", e.getMessage());
         }
