@@ -222,14 +222,18 @@ public class GoogleIabHelper extends IabHelper {
                         SoomlaApp.getAppContext().getSharedPreferences(SoomlaConfig.PREFS_NAME, Context.MODE_PRIVATE);
                 String publicKey = prefs.getString(GooglePlayIabService.PUBLICKEY_KEY, "");
 
+                // Allow purchases to go through even if client side receipt verification fails.
+                // We verify it on the server.
+                // TODO why does this fail?
                 // Verify signature
                 if (!Security.verifyPurchase(publicKey, purchaseData, dataSignature)) {
                     SoomlaUtils.LogError(TAG, "IabPurchase signature verification FAILED for sku " + sku);
-                    result = new IabResult(IabResult.IABHELPER_VERIFICATION_FAILED, "Signature verification failed for sku " + sku);
-                    purchaseFailed(result, purchase);
-                    return true;
+                    //result = new IabResult(IabResult.IABHELPER_VERIFICATION_FAILED, "Signature verification failed for sku " + sku);
+                    //purchaseFailed(result, purchase);
+                    //return true;
+                } else {
+                    SoomlaUtils.LogDebug(TAG, "IabPurchase signature successfully verified.");
                 }
-                SoomlaUtils.LogDebug(TAG, "IabPurchase signature successfully verified.");
             }
             catch (JSONException e) {
                 SoomlaUtils.LogError(TAG, "Failed to parse purchase data.");

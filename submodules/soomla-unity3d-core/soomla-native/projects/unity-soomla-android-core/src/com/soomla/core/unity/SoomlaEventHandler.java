@@ -14,15 +14,18 @@ import org.json.JSONObject;
 public class SoomlaEventHandler {
     private static SoomlaEventHandler mLocalEventHandler;
 
-    public static void initialize() {
+    public static void initialize(String recieverName) {
         SoomlaUtils.LogDebug("SOOMLA Unity SoomlaEventHandler", "Initializing SoomlaEventHandler ...");
         mLocalEventHandler = new SoomlaEventHandler();
-
+        mLocalEventHandler.recieverName = recieverName;
     }
 
     public SoomlaEventHandler() {
         BusProvider.getInstance().register(this);
     }
+
+    /** Name of the Unity GameObject to send events to. */
+    public String recieverName;
 
     @Subscribe
     public void onRewardGiven(RewardGivenEvent rewardGivenEvent) {
@@ -30,7 +33,7 @@ public class SoomlaEventHandler {
         try {
             JSONObject eventJSON = new JSONObject();
             eventJSON.put("rewardId", rewardGivenEvent.RewardId);
-            UnityPlayer.UnitySendMessage("CoreEvents", "onRewardGiven", eventJSON.toString());
+            UnityPlayer.UnitySendMessage(recieverName, "onRewardGiven", eventJSON.toString());
         } catch (JSONException e) {
             SoomlaUtils.LogError("SOOMLA SoomlaEventHandler", "This is BAD! couldn't create JSON for onRewardGiven event.");
         }
@@ -41,7 +44,7 @@ public class SoomlaEventHandler {
         try {
             JSONObject eventJSON = new JSONObject();
             eventJSON.put("rewardId", rewardTakenEvent.RewardId);
-            UnityPlayer.UnitySendMessage("CoreEvents", "onRewardTaken", eventJSON.toString());
+            UnityPlayer.UnitySendMessage(recieverName, "onRewardTaken", eventJSON.toString());
         } catch (JSONException e) {
             SoomlaUtils.LogError("SOOMLA SoomlaEventHandler", "This is BAD! couldn't create JSON for onRewardGiven event.");
         }
@@ -66,7 +69,7 @@ public class SoomlaEventHandler {
 
             eventJSON.put("extra", extraJSON);
 
-            UnityPlayer.UnitySendMessage("CoreEvents", "onCustomEvent", eventJSON.toString());
+            UnityPlayer.UnitySendMessage(recieverName, "onCustomEvent", eventJSON.toString());
         } catch (JSONException e) {
             SoomlaUtils.LogError("SOOMLA SoomlaEventHandler", "This is BAD! couldn't create JSON for onMarketItemsRefreshFinished event.");
         }

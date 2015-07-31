@@ -27,6 +27,10 @@ import com.soomla.store.events.RestoreTransactionsFinishedEvent;
 import com.soomla.store.events.RestoreTransactionsStartedEvent;
 import com.soomla.store.events.SoomlaStoreInitializedEvent;
 import com.soomla.store.events.UnexpectedStoreErrorEvent;
+import com.soomla.store.events.MarketPurchaseVerifiedEvent;
+import com.soomla.store.events.MarketPurchaseVerifyStartedEvent;
+import com.soomla.store.events.MarketPurchaseVerifyErrorEvent;
+import com.soomla.store.events.RefreshTransactionReceiptEvent;
 import com.squareup.otto.Subscribe;
 import com.unity3d.player.UnityPlayer;
 
@@ -38,9 +42,9 @@ public class StoreEventHandler {
     private static StoreEventHandler mLocalEventHandler;
     private static String TAG = "SOOMLA Unity StoreEventHandler";
 
-    public static void initialize() {
+    public static void initialize(String recieverName) {
         SoomlaUtils.LogDebug("SOOMLA Unity StoreEventHandler", "Initializing StoreEventHandler ...");
-        getInstance();
+        getInstance().recieverName = recieverName;
     }
 
     public static StoreEventHandler getInstance() {
@@ -49,6 +53,9 @@ public class StoreEventHandler {
         }
         return mLocalEventHandler;
     }
+
+    /** Name of the Unity GameObject to send events to. */
+    public String recieverName;
 
     public StoreEventHandler() {
         BusProvider.getInstance().register(this);
@@ -59,7 +66,7 @@ public class StoreEventHandler {
         if (billingSupportedEvent.Sender == this) {
             return;
         }
-        UnityPlayer.UnitySendMessage("StoreEvents", "onBillingSupported", "");
+        UnityPlayer.UnitySendMessage(recieverName, "onBillingSupported", "");
     }
 
     @Subscribe
@@ -67,7 +74,7 @@ public class StoreEventHandler {
         if (billingNotSupportedEvent.Sender == this) {
             return;
         }
-        UnityPlayer.UnitySendMessage("StoreEvents", "onBillingNotSupported", "");
+        UnityPlayer.UnitySendMessage(recieverName, "onBillingNotSupported", "");
     }
 
     @Subscribe
@@ -75,7 +82,7 @@ public class StoreEventHandler {
         if (iabServiceStartedEvent.Sender == this) {
             return;
         }
-        UnityPlayer.UnitySendMessage("StoreEvents", "onIabServiceStarted", "");
+        UnityPlayer.UnitySendMessage(recieverName, "onIabServiceStarted", "");
     }
 
     @Subscribe
@@ -83,7 +90,7 @@ public class StoreEventHandler {
         if (iabServiceStoppedEvent.Sender == this) {
             return;
         }
-        UnityPlayer.UnitySendMessage("StoreEvents", "onIabServiceStopped", "");
+        UnityPlayer.UnitySendMessage(recieverName, "onIabServiceStopped", "");
     }
 
     @Subscribe
@@ -97,7 +104,7 @@ public class StoreEventHandler {
             eventJSON.put("balance", currencyBalanceChangedEvent.getBalance());
             eventJSON.put("amountAdded", currencyBalanceChangedEvent.getAmountAdded());
 
-            UnityPlayer.UnitySendMessage("StoreEvents", "onCurrencyBalanceChanged", eventJSON.toString());
+            UnityPlayer.UnitySendMessage(recieverName, "onCurrencyBalanceChanged", eventJSON.toString());
         } catch (JSONException e) {
             SoomlaUtils.LogError(TAG, "This is BAD! couldn't create JSON for onCurrencyBalanceChanged event.");
         }
@@ -114,7 +121,7 @@ public class StoreEventHandler {
             eventJSON.put("balance", goodBalanceChangedEvent.getBalance());
             eventJSON.put("amountAdded", goodBalanceChangedEvent.getAmountAdded());
 
-            UnityPlayer.UnitySendMessage("StoreEvents", "onGoodBalanceChanged", eventJSON.toString());
+            UnityPlayer.UnitySendMessage(recieverName, "onGoodBalanceChanged", eventJSON.toString());
         } catch (JSONException e) {
             SoomlaUtils.LogError(TAG, "This is BAD! couldn't create JSON for onGoodBalanceChanged event.");
         }
@@ -129,7 +136,7 @@ public class StoreEventHandler {
             JSONObject eventJSON = new JSONObject();
             eventJSON.put("itemId", goodEquippedEvent.getGoodItemId());
 
-            UnityPlayer.UnitySendMessage("StoreEvents", "onGoodEquipped", eventJSON.toString());
+            UnityPlayer.UnitySendMessage(recieverName, "onGoodEquipped", eventJSON.toString());
         } catch (JSONException e) {
             SoomlaUtils.LogError(TAG, "This is BAD! couldn't create JSON for onGoodEquipped event.");
         }
@@ -144,7 +151,7 @@ public class StoreEventHandler {
             JSONObject eventJSON = new JSONObject();
             eventJSON.put("itemId", goodUnEquippedEvent.getGoodItemId());
 
-            UnityPlayer.UnitySendMessage("StoreEvents", "onGoodUnequipped", eventJSON.toString());
+            UnityPlayer.UnitySendMessage(recieverName, "onGoodUnequipped", eventJSON.toString());
         } catch (JSONException e) {
             SoomlaUtils.LogError(TAG, "This is BAD! couldn't create JSON for onGoodUnequipped event.");
         }
@@ -160,7 +167,7 @@ public class StoreEventHandler {
             eventJSON.put("itemId", goodUpgradeEvent.getGoodItemId());
             eventJSON.put("upgradeItemId", goodUpgradeEvent.getCurrentUpgrade());
 
-            UnityPlayer.UnitySendMessage("StoreEvents", "onGoodUpgrade", eventJSON.toString());
+            UnityPlayer.UnitySendMessage(recieverName, "onGoodUpgrade", eventJSON.toString());
         } catch (JSONException e) {
             SoomlaUtils.LogError(TAG, "This is BAD! couldn't create JSON for onGoodUpgrade event.");
         }
@@ -176,7 +183,7 @@ public class StoreEventHandler {
             eventJSON.put("itemId", itemPurchasedEvent.getItemId());
             eventJSON.put("payload", itemPurchasedEvent.getPayload());
 
-            UnityPlayer.UnitySendMessage("StoreEvents", "onItemPurchased", eventJSON.toString());
+            UnityPlayer.UnitySendMessage(recieverName, "onItemPurchased", eventJSON.toString());
         } catch (JSONException e) {
             SoomlaUtils.LogError(TAG, "This is BAD! couldn't create JSON for onItemPurchased event.");
         }
@@ -191,7 +198,7 @@ public class StoreEventHandler {
             JSONObject eventJSON = new JSONObject();
             eventJSON.put("itemId", itemPurchaseStartedEvent.getItemId());
 
-            UnityPlayer.UnitySendMessage("StoreEvents", "onItemPurchaseStarted", eventJSON.toString());
+            UnityPlayer.UnitySendMessage(recieverName, "onItemPurchaseStarted", eventJSON.toString());
         } catch (JSONException e) {
             SoomlaUtils.LogError(TAG, "This is BAD! couldn't create JSON for onItemPurchaseStarted event.");
         }
@@ -206,7 +213,7 @@ public class StoreEventHandler {
             JSONObject eventJSON = new JSONObject();
             eventJSON.put("itemId", playPurchaseCancelledEvent.getPurchasableVirtualItem().getItemId());
 
-            UnityPlayer.UnitySendMessage("StoreEvents", "onMarketPurchaseCancelled", eventJSON.toString());
+            UnityPlayer.UnitySendMessage(recieverName, "onMarketPurchaseCancelled", eventJSON.toString());
         } catch (JSONException e) {
             SoomlaUtils.LogError(TAG, "This is BAD! couldn't create JSON for onMarketPurchaseCancelled event.");
         }
@@ -227,7 +234,7 @@ public class StoreEventHandler {
             }
             eventJSON.put("extra", extraJSON);
 
-            UnityPlayer.UnitySendMessage("StoreEvents", "onMarketPurchase", eventJSON.toString());
+            UnityPlayer.UnitySendMessage(recieverName, "onMarketPurchase", eventJSON.toString());
         } catch (JSONException e) {
             SoomlaUtils.LogError(TAG, "This is BAD! couldn't create JSON for onMarketPurchase event.");
         }
@@ -242,9 +249,26 @@ public class StoreEventHandler {
             JSONObject eventJSON = new JSONObject();
             eventJSON.put("itemId", playPurchaseStartedEvent.getPurchasableVirtualItem().getItemId());
 
-            UnityPlayer.UnitySendMessage("StoreEvents", "onMarketPurchaseStarted", eventJSON.toString());
+            UnityPlayer.UnitySendMessage(recieverName, "onMarketPurchaseStarted", eventJSON.toString());
         } catch (JSONException e) {
             SoomlaUtils.LogError(TAG, "This is BAD! couldn't create JSON for onMarketPurchaseStarted event.");
+        }
+    }
+
+    @Subscribe
+    public void onMarketPurchaseVerifyStarted(MarketPurchaseVerifyStartedEvent playVerifyStartedEvent) {
+        if (playVerifyStartedEvent.Sender == this) {
+            return;
+        }
+        try {
+            JSONObject eventJSON = new JSONObject();
+            eventJSON.put("transactionId", playVerifyStartedEvent.getTransactionId());
+            eventJSON.put("receipt", playVerifyStartedEvent.getReceipt());
+            eventJSON.put("signature", playVerifyStartedEvent.getSignature());
+
+            UnityPlayer.UnitySendMessage(recieverName, "onMarketPurchaseVerifyStarted", eventJSON.toString());
+        } catch (JSONException e) {
+            SoomlaUtils.LogError(TAG, "This is BAD! couldn't create JSON for onMarketPurchaseVerifyStarted event.");
         }
     }
 
@@ -257,7 +281,7 @@ public class StoreEventHandler {
             JSONObject eventJSON = new JSONObject();
             eventJSON.put("itemId", playRefundEvent.getPurchasableVirtualItem().getItemId());
 
-            UnityPlayer.UnitySendMessage("StoreEvents", "onMarketRefund", eventJSON.toString());
+            UnityPlayer.UnitySendMessage(recieverName, "onMarketRefund", eventJSON.toString());
         } catch (JSONException e) {
             SoomlaUtils.LogError(TAG, "This is BAD! couldn't create JSON for onMarketRefund event.");
         }
@@ -272,7 +296,7 @@ public class StoreEventHandler {
             JSONObject eventJSON = new JSONObject();
             eventJSON.put("success", restoreTransactionsFinishedEvent.isSuccess());
 
-            UnityPlayer.UnitySendMessage("StoreEvents", "onRestoreTransactionsFinished", eventJSON.toString());
+            UnityPlayer.UnitySendMessage(recieverName, "onRestoreTransactionsFinished", eventJSON.toString());
         } catch (JSONException e) {
             SoomlaUtils.LogError(TAG, "This is BAD! couldn't create JSON for onRestoreTransactionsFinished event.");
         }
@@ -283,7 +307,7 @@ public class StoreEventHandler {
         if (restoreTransactionsStartedEvent.Sender == this) {
             return;
         }
-        UnityPlayer.UnitySendMessage("StoreEvents", "onRestoreTransactionsStarted", "");
+        UnityPlayer.UnitySendMessage(recieverName, "onRestoreTransactionsStarted", "");
     }
 
     @Subscribe
@@ -291,7 +315,7 @@ public class StoreEventHandler {
         if (marketItemsRefreshStartedEvent.Sender == this) {
             return;
         }
-        UnityPlayer.UnitySendMessage("StoreEvents", "onMarketItemsRefreshStarted", "");
+        UnityPlayer.UnitySendMessage(recieverName, "onMarketItemsRefreshStarted", "");
     }
 
     @Subscribe
@@ -315,7 +339,7 @@ public class StoreEventHandler {
                 eventJSON.put(micJSON);
             }
 
-            UnityPlayer.UnitySendMessage("StoreEvents", "onMarketItemsRefreshFinished", eventJSON.toString());
+            UnityPlayer.UnitySendMessage(recieverName, "onMarketItemsRefreshFinished", eventJSON.toString());
         } catch (JSONException e) {
             SoomlaUtils.LogError(TAG, "This is BAD! couldn't create JSON for onMarketItemsRefreshFinished event.");
         }
@@ -331,7 +355,7 @@ public class StoreEventHandler {
             JSONObject eventJSON = new JSONObject();
             eventJSON.put("errorMessage", marketItemsRefreshFailedEvent.ErrorMessage);
 
-            UnityPlayer.UnitySendMessage("StoreEvents", "onMarketItemsRefreshFailed", eventJSON.toString());
+            UnityPlayer.UnitySendMessage(recieverName, "onMarketItemsRefreshFailed", eventJSON.toString());
         } catch (JSONException e) {
             SoomlaUtils.LogError(TAG, "This is BAD! couldn't create JSON for onMarketItemsRefreshFailed event.");
         }
@@ -342,7 +366,7 @@ public class StoreEventHandler {
         if (soomlaStoreInitializedEvent.Sender == this) {
             return;
         }
-        UnityPlayer.UnitySendMessage("StoreEvents", "onSoomlaStoreInitialized", "");
+        UnityPlayer.UnitySendMessage(recieverName, "onSoomlaStoreInitialized", "");
     }
 
     @Subscribe
@@ -355,7 +379,7 @@ public class StoreEventHandler {
             JSONObject eventJSON = new JSONObject();
             eventJSON.put("errorCode", unexpectedStoreErrorEvent.getErrorCode().ordinal());
 
-            UnityPlayer.UnitySendMessage("StoreEvents", "onUnexpectedStoreError", eventJSON.toString());
+            UnityPlayer.UnitySendMessage(recieverName, "onUnexpectedStoreError", eventJSON.toString());
         } catch (JSONException e) {
             SoomlaUtils.LogError(TAG, "This is BAD! couldn't create JSON for onMarketItemsRefreshFailed event.");
         }
@@ -451,6 +475,33 @@ public class StoreEventHandler {
             BusProvider.getInstance().post(new ItemPurchaseStartedEvent(eventJSON.getString("itemId"), this));
         } catch (JSONException e) {
             SoomlaUtils.LogError(TAG, "(when pushing event) This is BAD! couldn't create JSON for onItemPurchaseStarted event.");
+        }
+    }
+
+    public void pushEventMarketPurcahseVerified(String message) {
+        try {
+            JSONObject eventJSON = new JSONObject(message);
+            BusProvider.getInstance().post(new MarketPurchaseVerifiedEvent(eventJSON.getString("transactionId"), eventJSON.getBoolean("success"), this));
+        } catch (JSONException e) {
+            SoomlaUtils.LogError(TAG, "(when pushing event) This is BAD! couldn't create JSON for MarketPurcahseVerified event.");
+        }
+    }
+
+    public void pushEventMarketPurchaseVerifyError(String message) {
+        try {
+            JSONObject eventJSON = new JSONObject(message);
+            BusProvider.getInstance().post(new MarketPurchaseVerifyErrorEvent(eventJSON.getString("transactionId"), this));
+        } catch (JSONException e) {
+            SoomlaUtils.LogError(TAG, "(when pushing event) This is BAD! couldn't create JSON for MarketPurchaseVerifyErrorEvent event.");
+        }
+    }
+
+    public void pushEventRefreshTransactionReceipt(String message) {
+        try {
+            JSONObject eventJSON = new JSONObject(message);
+            BusProvider.getInstance().post(new RefreshTransactionReceiptEvent(eventJSON.getString("transactionId"), this));
+        } catch (JSONException e) {
+            SoomlaUtils.LogError(TAG, "(when pushing event) This is BAD! couldn't create JSON for RefreshTransactionReceipt event.");
         }
     }
 

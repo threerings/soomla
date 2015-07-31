@@ -47,11 +47,18 @@ import com.soomla.store.events.RestoreTransactionsFinishedEvent;
 import com.soomla.store.events.RestoreTransactionsStartedEvent;
 import com.soomla.store.events.SoomlaStoreInitializedEvent;
 import com.soomla.store.events.UnexpectedStoreErrorEvent;
+import com.soomla.store.events.MarketPurchaseVerifiedEvent;
+import com.soomla.store.events.MarketPurchaseVerifyErrorEvent;
+import com.soomla.store.events.RefreshTransactionReceiptEvent;
+import com.soomla.store.events.MarketPurchaseVerifyStartedEvent;
 import com.soomla.store.exceptions.VirtualItemNotFoundException;
 import com.soomla.store.purchaseTypes.PurchaseWithMarket;
 
+import com.squareup.otto.Subscribe;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 
 /**
@@ -557,16 +564,11 @@ public class SoomlaStore {
 
         switch (purchase.getPurchaseState()) {
             case 0: {
-                if (purchase.isServerVerified()) {
-                    this.finalizeTransaction(purchase, pvi);
-                } else {
-                    BusProvider.getInstance().post(
-                            new UnexpectedStoreErrorEvent(
-                                    purchase.getVerificationErrorCode() != null?
-                                            purchase.getVerificationErrorCode() :
-                                            UnexpectedStoreErrorEvent.ErrorCode.GENERAL));
-                }
-
+                String transactionId = purchase.getOrderId();
+                String receipt = purchase.getOriginalJson();
+                String signature = purchase.getSignature();
+                mPendingPurchases.put(transactionId, purchase);
+                BusProvider.getInstance().post(new MarketPurchaseVerifyStartedEvent(transactionId, receipt, signature));
                 break;
             }
             case 1:
@@ -577,6 +579,82 @@ public class SoomlaStore {
                 }
                 BusProvider.getInstance().post(new MarketRefundEvent(pvi, purchase.getDeveloperPayload()));
                 break;
+        }
+    }
+
+    @Subscribe
+    public void onReceiptVerifiedEvent(MarketPurchaseVerifiedEvent event)
+    {
+        IabPurchase purchase = mPendingPurchases.get(event.getTransactionId());
+        if (purchase != null) {
+            purchase.setServerVerified(event.getSuccess());
+            handlePurchaseVerified(purchase);
+        } else {
+            SoomlaUtils.LogError(TAG, "onReceiptVerifiedEvent - ERROR : "
+                    + " can't find a transaction in progress for " + event.getTransactionId());
+            BusProvider.getInstance().post(new UnexpectedStoreErrorEvent(
+                    UnexpectedStoreErrorEvent.ErrorCode.PURCHASE_FAIL));
+        }
+    }
+
+    @Subscribe
+    public void onReceiptPurchaseVerifyErrorEvent(MarketPurchaseVerifyErrorEvent event)
+    {
+        IabPurchase purchase = mPendingPurchases.get(event.getTransactionId());
+        if (purchase != null) {
+            purchase.setServerVerified(false);
+            purchase.setVerificationErrorCode(UnexpectedStoreErrorEvent.ErrorCode.VERIFICATION_TIMEOUT);
+            BusProvider.getInstance().post(new UnexpectedStoreErrorEvent(
+                    purchase.getVerificationErrorCode() != null ?
+                            purchase.getVerificationErrorCode() :
+                            UnexpectedStoreErrorEvent.ErrorCode.GENERAL));
+        } else {
+            SoomlaUtils.LogError(TAG, "onReceiptPurchaseVerifyErrorEvent - ERROR : "
+                    + " can't find a transaction in progress for " + event.getTransactionId());
+            BusProvider.getInstance().post(new UnexpectedStoreErrorEvent(
+                    UnexpectedStoreErrorEvent.ErrorCode.PURCHASE_FAIL));
+        }
+
+    }
+
+    @Subscribe
+    public void onRefreshTransactionReceiptEvent(RefreshTransactionReceiptEvent event)
+    {
+        IabPurchase purchase = mPendingPurchases.get(event.getTransactionId());
+        if (purchase != null) {
+            handleSuccessfulPurchase(purchase);
+        } else {
+            SoomlaUtils.LogError(TAG, "onRefreshTransactionReceiptEvent - ERROR : "
+                    + " can't find a transaction in progress for " + event.getTransactionId());
+            BusProvider.getInstance().post(new UnexpectedStoreErrorEvent(
+                    UnexpectedStoreErrorEvent.ErrorCode.PURCHASE_FAIL));
+        }
+    }
+
+    /**
+     * Executes after a purchase has be verified. Closes the transaction or throws an error.
+     */
+    private void handlePurchaseVerified (IabPurchase purchase)
+    {
+        String sku = purchase.getSku();
+        PurchasableVirtualItem pvi;
+        try {
+            pvi = StoreInfo.getPurchasableItem(sku);
+        } catch (VirtualItemNotFoundException e) {
+            SoomlaUtils.LogError(TAG, "(handlePurchaseVerified - purchase or query-inventory) "
+                    + "ERROR : Couldn't find the " +
+                    " VirtualCurrencyPack OR MarketItem  with productId: " + sku +
+                    ". It's unexpected so an unexpected error is being emitted.");
+            BusProvider.getInstance().post(new UnexpectedStoreErrorEvent(
+                    UnexpectedStoreErrorEvent.ErrorCode.PURCHASE_FAIL));
+            return;
+        }
+        mPendingPurchases.remove(purchase.getOrderId());
+
+        if (purchase.isServerVerified()) {
+            finalizeTransaction(purchase, pvi);
+        } else {
+            consumeIfConsumable(purchase, pvi);
         }
     }
 
@@ -710,6 +788,7 @@ public class SoomlaStore {
      * Constructor
      */
     private SoomlaStore() {
+        mPendingPurchases = new HashMap<String, IabPurchase>();
         BusProvider.getInstance().register(this);
     }
 
@@ -718,5 +797,5 @@ public class SoomlaStore {
     private static final String TAG = "SOOMLA SoomlaStore"; //used for Log messages
     private boolean mInitialized = false;
     private IIabService mInAppBillingService;
-
+    private Map<String, IabPurchase> mPendingPurchases;
 }
