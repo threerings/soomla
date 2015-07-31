@@ -379,9 +379,9 @@ public class StoreEventHandler {
             JSONObject eventJSON = new JSONObject();
             eventJSON.put("errorCode", unexpectedStoreErrorEvent.getErrorCode().ordinal());
 
-            UnityPlayer.UnitySendMessage(recieverName, "onUnexpectedStoreError", eventJSON.toString());
+            UnityPlayer.UnitySendMessage(recieverName, "onUnexpectedErrorInStore", eventJSON.toString());
         } catch (JSONException e) {
-            SoomlaUtils.LogError(TAG, "This is BAD! couldn't create JSON for onMarketItemsRefreshFailed event.");
+            SoomlaUtils.LogError(TAG, "This is BAD! couldn't create JSON for onUnexpectedStoreError event.");
         }
     }
 
