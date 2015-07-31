@@ -29,7 +29,7 @@ static NSString* TAG = @"SOOMLA SoomlaVerification";
     if (self = [super init]) {
         transaction = t;
         purchasable = pvi;
-        transactionId = tid;
+        instanceId = tid;
         // Tell ARC to not dealloc this class instance. until we say so.
         selfRef = CFBridgingRetain(self);
     }
@@ -55,7 +55,7 @@ static NSString* TAG = @"SOOMLA SoomlaVerification";
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshReceipt:) name:EVENT_MARKET_PURCHASE_RECEIPT_REFRESH object:nil];
         
         NSString* receiptString = [data base64Encoding];
-        [StoreEventHandling postMarketPurchaseVerifyStart:receiptString andTransactionId:transactionId];
+        [StoreEventHandling postMarketPurchaseVerifyStart:receiptString andTransactionId:transaction.transactionIdentifier];
     } else {
         LogError(TAG, ([NSString stringWithFormat:@"An error occured while trying to get receipt data. Stopping the purchasing process for: %@", transaction.payment.productIdentifier]));
         [StoreEventHandling postUnexpectedError:ERR_VERIFICATION_TIMEOUT forObject:self];
@@ -84,7 +84,7 @@ static NSString* TAG = @"SOOMLA SoomlaVerification";
     
     if (data) {
         NSString* receiptString = [data base64Encoding];
-        [StoreEventHandling postMarketPurchaseVerifyStart:receiptString andTransactionId:transactionId];
+        [StoreEventHandling postMarketPurchaseVerifyStart:receiptString andTransactionId:transaction.transactionIdentifier];
     } else {
         LogError(TAG, ([NSString stringWithFormat:@"An error occured while trying to get receipt data. Stopping the purchasing process for: %@", transaction.payment.productIdentifier]));
         [StoreEventHandling postUnexpectedError:ERR_VERIFICATION_TIMEOUT forObject:self];
@@ -117,9 +117,9 @@ static NSString* TAG = @"SOOMLA SoomlaVerification";
 - (void)purchaseError:(NSNotification*)notification
 {
     NSDictionary* userInfo = notification.userInfo;
-    NSNumber* messageId = [userInfo objectForKey:DICT_ELEMENT_TRANSACTION_ID];
+    NSString* messageId = [userInfo objectForKey:DICT_ELEMENT_TRANSACTION_ID];
 
-    if (messageId.intValue == transactionId) {
+    if ([messageId isEqualToString:transaction.transactionIdentifier]) {
         LogError(TAG, ([NSString stringWithFormat:@"Unity sent an error response for transaction id %@", messageId]));
         [StoreEventHandling postUnexpectedError:EVENT_UNEXPECTED_ERROR_IN_STORE forObject:self];
     
@@ -137,9 +137,9 @@ static NSString* TAG = @"SOOMLA SoomlaVerification";
 {
     // got client response, send event back to soomlaStore and deregister self listener.
     NSDictionary* userInfo = notification.userInfo;
-    NSNumber* messageId = [userInfo objectForKey:DICT_ELEMENT_TRANSACTION_ID];
+    NSString* messageId = [userInfo objectForKey:DICT_ELEMENT_TRANSACTION_ID];
 
-    if (messageId.intValue == transactionId) {
+    if ([messageId isEqualToString:transaction.transactionIdentifier]) {
        LogDebug(TAG, ([NSString stringWithFormat:@"Unity sent a response for transaction id %@. verification = %@", messageId, [userInfo objectForKey:DICT_ELEMENT_VERIFIED]]));
         [StoreEventHandling postMarketPurchaseVerification:[userInfo objectForKey:DICT_ELEMENT_VERIFIED] forItem:purchasable andTransaction:transaction forObject:self];
         

@@ -122,11 +122,11 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_MARKET_PURCHASED object:self userInfo:userInfo];
 }
 
-+ (void)postMarketPurchaseVerifyStart:(NSString*)receipt andTransactionId:(int)transactionId
++ (void)postMarketPurchaseVerifyStart:(NSString*)receipt andTransactionId:(NSString*)transactionId
 {
     NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
                               receipt, DICT_ELEMENT_RECEIPT,
-                              [NSNumber numberWithInt:transactionId], DICT_ELEMENT_TRANSACTION_ID,
+                              transactionId, DICT_ELEMENT_TRANSACTION_ID,
                               nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_MARKET_PURCHASE_VERIFY_START object:self userInfo:userInfo];
 }

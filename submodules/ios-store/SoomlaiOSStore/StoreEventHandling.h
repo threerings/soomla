@@ -125,7 +125,7 @@
 
 + (void)postMarketPurchase:(PurchasableVirtualItem*)purchasableVirtualItem withReceiptUrl:(NSURL*)receiptUrl andPurchaseToken:(NSString*)token andPayload:(NSString*)payload;
 
-+ (void)postMarketPurchaseVerifyStart:(NSString*)receipt andTransactionId:(int)transactionId;
++ (void)postMarketPurchaseVerifyStart:(NSString*)receipt andTransactionId:(NSString*)transactionId;
 
 + (void)postMarketPurchaseVerification:(BOOL)verified forItem:(PurchasableVirtualItem*)purchasableVirtualItem andTransaction:(SKPaymentTransaction*)transaction forObject:(id)object;
 

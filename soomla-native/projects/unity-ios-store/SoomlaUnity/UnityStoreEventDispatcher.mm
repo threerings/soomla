@@ -89,20 +89,20 @@ extern "C"{
         [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_ITEM_PURCHASE_STARTED object:instance userInfo:userInfo];
     }
     
-    void eventDispatcher_SetMarketPurchaseVerified(int transactionId, bool success) {
+    void eventDispatcher_SetMarketPurchaseVerified(const char* transactionId, bool success) {
         NSDictionary *userInfo = @{
                                    DICT_ELEMENT_VERIFIED: [NSNumber numberWithBool:success],
-                                   DICT_ELEMENT_TRANSACTION_ID: [NSNumber numberWithInt:transactionId]};
+                                   DICT_ELEMENT_TRANSACTION_ID: [NSString stringWithUTF8String:transactionId]};
         [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_MARKET_PURCHASE_VERIF_CLIENT object:instance userInfo:userInfo];
     }
     
-    void eventDispatcher_SetMarketPurchaseVerifyError(int transactionId) {
-        NSDictionary *userInfo = @{DICT_ELEMENT_TRANSACTION_ID: [NSNumber numberWithInt:transactionId]};
+    void eventDispatcher_SetMarketPurchaseVerifyError(const char* transactionId) {
+        NSDictionary *userInfo = @{DICT_ELEMENT_TRANSACTION_ID: [NSString stringWithUTF8String:transactionId]};
         [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_MARKET_PURCHASE_VERIF_ERROR object:instance userInfo:userInfo];
     }
     
-    void eventDispatcher_RefreshTransactionReceipt(int transactionId) {
-        NSDictionary *userInfo = @{DICT_ELEMENT_TRANSACTION_ID: [NSNumber numberWithInt:transactionId]};
+    void eventDispatcher_RefreshTransactionReceipt(const char* transactionId) {
+        NSDictionary *userInfo = @{DICT_ELEMENT_TRANSACTION_ID: [NSString stringWithUTF8String:transactionId]};
         [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_MARKET_PURCHASE_RECEIPT_REFRESH object:instance userInfo:userInfo];
     }
 }

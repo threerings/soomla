@@ -24,7 +24,7 @@
     int responseCode;
     PurchasableVirtualItem *purchasable;
     SKPaymentTransaction* transaction;
-    int transactionId;
+    int instanceId;
     CFTypeRef selfRef;
 }
 
